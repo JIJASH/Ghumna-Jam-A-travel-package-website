@@ -5,6 +5,8 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework.authtoken.views import obtain_auth_token
+
 
 
 
@@ -31,6 +33,8 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     
     path('admin/', admin.site.urls),
-    path('api/v1/',include('travel_app.urls')),
-    path('api/v1/',include('core.urls')),
+   #  path('api/v1/auth/login/', obtain_auth_token, name='api_token_auth'),
+
+    path('',include('travel_app.urls')),
+    path('',include('core.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
