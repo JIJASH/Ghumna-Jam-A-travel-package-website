@@ -5,13 +5,11 @@ from django.utils.timezone import now
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 
-User=get_user_model()
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
 
-# class User(AbstractUser):
-#     contact_number=models.CharField(max_length=15,blank=True,null=True)
-#     address=models.CharField(max_length=100,blank=True,null=True) 
-#     profile_picture=models.ImageField(upload_to='profile_images/',blank=True,null=True)#will be saved to media/profile_images autossss
- 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
 
 
@@ -43,7 +41,7 @@ class Customer(models.Model):
         choices=GENDER_CHOICES,
         blank=True, null=True
     )
-    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="customer")
+    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="customer")
     loyalty_points = models.PositiveIntegerField(default=0)
     preferred_payment_method = models.CharField(max_length=20, blank=True, null=True)
 
@@ -55,7 +53,7 @@ class Customer(models.Model):
 
 
 class TourGuide(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     bio = models.TextField()
     experience_years = models.PositiveIntegerField()
     languages = models.JSONField(default=list)
@@ -259,7 +257,7 @@ class Payment(models.Model):
 
 class Review(models.Model):
    
-    user=models.ForeignKey(User,on_delete=models.CASCADE, related_name="reviews")
+    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE, related_name="reviews")
     travel_package=models.ForeignKey(TravelPackage, on_delete= models.CASCADE , related_name="reviews")
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment=models.TextField(blank=True,null=True)
@@ -279,7 +277,7 @@ class Review(models.Model):
 
 class WishList(models.Model):
     
-    user=models.ForeignKey(User,on_delete=models.CASCADE, related_name="wishlist")
+    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE, related_name="wishlist")
     travel_package=models.ForeignKey(TravelPackage, on_delete= models.CASCADE , related_name="wishlist")
     added_date=models.DateTimeField(auto_now_add=True)
     notes = models.TextField(blank=True, null=True)

@@ -1,14 +1,62 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="shadow-wrap">
- <div class="form-wrap">
-  <h3>Signup </h3>
-<form method="POST">
- {% csrf_token %}
- {{form}}
- <button type="submit">Submit</button>
-</form>
-<a class="signup-link" href="{% url "base:login" %}">Login</a>
+    <div class="form-wrap">
+        <h3>Signup</h3>
+        <form method="POST" action="{% url 'travel_app:authView' %}" onsubmit="return validateForm()">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            {% load static %}
+            <div class="password-requirements">
+                <p>Password requirements:</p>
+                <ul>
+                    <li>At least 8 characters long</li>
+                    <li>Cannot be too similar to your email</li>
+                    <li>Must match the confirmation password</li>
+                </ul>
+            </div>
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <button type="submit">Submit</button>
+        </form>
+        <a class="signup-link" href="{% url 'travel_app:login' %}">Login</a>
+    </div>
 </div>
-</div>
-{% endblock content %}a
+
+<script>
+    function validateForm() {
+        const email = document.querySelector('input[name="email"]').value;
+        const password1 = document.querySelector('input[name="password1"]').value;
+        const password2 = document.querySelector('input[name="password2"]').value;
+
+        // Check if passwords are too similar to email
+        if (password1.toLowerCase().includes(email.toLowerCase())) {
+            alert("Error: Your password is too similar to your email.");
+            return false;
+        }
+
+        // Check if passwords match
+        if (password1 !== password2) {
+            alert("Error: Passwords do not match.");
+            return false;
+        }
+
+        // Check password length
+        if (password1.length < 8) {
+            alert("Error: Password must be at least 8 characters long.");
+            return false;
+        }
+
+        return true; // Allow form submission if all checks pass
+    }
+</script>
+{% endblock content %}

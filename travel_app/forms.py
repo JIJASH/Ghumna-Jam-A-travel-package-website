@@ -1,0 +1,30 @@
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import CustomUser
+from random import randint
+
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'password1', 'password2')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Remove password validation messages
+        self.fields['password1'].help_text = None
+        self.fields['password2'].help_text = None
+
+
+    def save(self, commit=True):
+    # Save the user but don't commit to the database yet
+        user = super().save(commit=False)
+
+        # Extract the username from the email (part before @)
+        email = self.cleaned_data['email']
+        username=email.split("@")[0] + str(randint(1,999))  # Get the part before @
+        user.username = username  # Set the username
+
+        if commit:
+            user.save()  # Save the user to the database
+        return user
