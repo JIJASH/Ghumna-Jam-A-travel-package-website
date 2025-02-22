@@ -42,11 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework.authtoken',
     'travel_app',
     'drf_yasg',
-    'core',
+    
 ]
 
 MIDDLEWARE = [
@@ -139,9 +137,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-LOGOUT_REDIRECT_URL = 'home'
+STATIC_URL = 'static/'
+# STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -149,7 +146,6 @@ LOGOUT_REDIRECT_URL = 'home'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTH_USER_MODEL = 'core.User'
 
 
 
@@ -174,3 +170,6 @@ INTERNAL_IPS = [
 #     #     'rest_framework.permissions.IsAuthenticated',
 #     # ],
 # }
+
+LOGIN_REDIRECT_URL = "base:home"
+LOGOUT_REDIRECT_URL = "base:login"
