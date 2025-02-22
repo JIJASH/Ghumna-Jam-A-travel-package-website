@@ -3,8 +3,8 @@
 
 <h1>Welcome to the Home Page</h1>
 <p>You are logged in as {{ user.username }}.</p>
-<form action="{% url 'travel_app:logout' %}" method="post">
+{% comment %} <form action="{% url 'travel_app:logout' %}" method="post">
     {% csrf_token %}
     <button type="submit">Logout</button>
-</form>
+</form> {% endcomment %}
 {% endblock content %}

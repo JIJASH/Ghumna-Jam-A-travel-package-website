@@ -171,7 +171,7 @@ INTERNAL_IPS = [
 #     # ],
 # }
 
-LOGIN_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "travel_app:home"
 LOGOUT_REDIRECT_URL = "travel_app:home"
 
 

@@ -73,10 +73,17 @@
    
    }
 
+
+
+   /*helptext*/
    .helptext {
     display: none;
     }
 
+
+
+
+    /* Password requirements styles */
    .password-requirements {
     margin-top: 10px;
     padding: 10px;
@@ -85,6 +92,7 @@
     border-radius: 5px;
     }
 
+    
     .password-requirements ul {
         margin: 5px 0 0 20px;
     }
@@ -92,4 +100,159 @@
     .password-requirements p {
         margin: 0;
         font-weight: bold;
+    }
+
+ 
+
+    /* Navbar styles */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #f8f9fa;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    .navbar .logo {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar .logo img {
+        height: 40px;  /* Adjust the height of the logo */
+    }
+
+    .company-name {
+        font-size: 24px;
+        font-weight: 700;
+        margin-left: 10px;
+        color: #333;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: #333;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .nav-link:hover {
+        color: #007bff;  /* Change color on hover */
+    }
+
+    .navbar .auth-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    .navbar .auth-buttons a {
+        text-decoration: none;
+        color: #333;
+        padding: 8px 16px;
+        border: 1px solid #333;
+        border-radius: 4px;
+        font-family: 'Mulish', sans-serif;
+        font-weight: 700;
+    }
+
+    .navbar .auth-buttons a:hover {
+        background-color: #333;
+        color: #fff;
+    }
+    .welcome-message {
+        font-weight: 700;
+        color: #333;
+        margin-right: 10px;
+    }
+
+    /* Main content padding to avoid overlap with the fixed navbar */
+    .main-content {
+        padding-top: 70px;  /* Adjust based on navbar height */
+    }
+
+
+
+    /* Style for auth buttons (Signup, Login, Profile, Logout) */
+    .auth-button {
+        text-decoration: none;
+        color: #333;
+        padding: 8px 16px; /* Consistent padding */
+        border: 1px solid #333;
+        border-radius: 4px;
+        font-family: 'Mulish', sans-serif;
+        font-weight: 700;
+        background: none;
+        cursor: pointer;
+        margin: 0 5px; /* Add some spacing between buttons */
+        font-size: 14px; /* Consistent font size */
+        line-height: 1.5; /* Consistent line height */
+        display: inline-block; /* Add some spacing between buttons */
+    }
+
+    .auth-button:hover {
+        background-color: #333;
+        color: #fff;
+    }
+
+
+          /* home section styles.css */
+
+    .home-container {
+        padding: 20px;
+        font-family: 'Mulish', sans-serif;
+    }
+
+    .home-container h1 {
+        font-size: 36px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .home-container p {
+        font-size: 18px;
+        color: #555;
+    }
+
+    .section {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .section p {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .section-link {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 700;
+    }
+
+    .section-link:hover {
+        background-color: #0056b3;
     }

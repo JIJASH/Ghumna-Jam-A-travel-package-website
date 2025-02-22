@@ -5,19 +5,11 @@ from django.contrib.auth import authenticate, login
 
 
 
-@login_required
+# @login_required
 def home(request):
     return render(request, "home.html", {})
 
-# def authView(request):
-#     if request.method == "POST":
-#         form = CustomUserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("travel_app:login")
-#     else:
-#         form = CustomUserCreationForm()
-#     return render(request, "registration/signup.html", {"form": form})
+
 
 def authView(request):
     if request.method == "POST":
@@ -41,3 +33,21 @@ def authView(request):
 
 def logout():
     pass
+
+
+
+@login_required
+def profile(request):
+    return render(request, "profile.html", {})
+
+
+def discover(request):
+    return render(request, "discover.html", {})
+
+
+def wishlist(request):
+    return render(request, "wishlist.html", {})
+
+
+def review(request):
+    return render(request, "review.html", {})

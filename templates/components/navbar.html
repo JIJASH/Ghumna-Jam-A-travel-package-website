@@ -1,55 +1,29 @@
-{% comment %} {% load static %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <!-- Brand Logo -->
-        <a class="navbar-brand" href="{% url 'home' %}">
-            <img src="{% static 'img/logo.png' %}" alt="Ghumna Jam!" width="40" height="40" class="d-inline-block align-text-top">
-            Ghumna Jam!
-        </a>
-
-        <!-- Hamburger Menu for Mobile -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Navbar Links -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'discover' %}">Discover</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">About</a>
-                </li>
-            </ul>
-
-            <!-- Authentication Links -->
-            <ul class="navbar-nav ms-auto">
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
-                    </li>
-                {% endif %}
-            </ul>
-
-            <!-- Dark Mode Toggle -->
-            <div class="nav__dark ms-3">
-                <span class="change-theme-name">Dark mode</span>
-                <i class="ri-moon-line change-theme" id="theme-button"></i>
-            </div>
-        </div>
+<div class="navbar">
+    <div class="logo">
+        {% load static %}
+        <img src="{% static '/img/logo.png' %}" alt="Travel App Logo">
+        <span class="company-name">GHUMNA JAM!</span>
     </div>
-</nav> {% endcomment %}
+
+    <div class="nav-links">
+        <a href="{% url 'travel_app:home' %}" class="nav-link">Home</a>
+        <a href="{% url 'travel_app:discover' %}" class="nav-link">Discover</a>
+        <a href="{% url 'travel_app:wishlist' %}" class="nav-link">Wishlist</a>
+        <a href="{% url 'travel_app:review' %}" class="nav-link">Review</a>
+    </div>
+
+    <div class="auth-section">
+        {% if user.is_authenticated %}
+            <span class="welcome-message">Welcome, {{ user.username }}!</span>
+
+            <a href="{% url 'travel_app:profile' %}" class = "auth-button">Profile</a>
+            <form action="{% url 'travel_app:logout' %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="auth-button">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'travel_app:authView' %}" class="auth-button">Signup</a>
+            <a href="{% url 'travel_app:login' %}" class="auth-button">Login</a>
+        {% endif %}
+    </div>
+</div>
