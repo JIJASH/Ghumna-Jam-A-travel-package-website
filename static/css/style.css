@@ -256,3 +256,148 @@
     .section-link:hover {
         background-color: #0056b3;
     }
+
+
+
+
+    /* Profile page styles */
+    .profile-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 80px 20px 20px;
+        font-family: 'Mulish', sans-serif;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto; /* Enable vertical scrolling */
+        height: 100vh; /* Full viewport height */
+    }
+
+    .profile-picture-section {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #007bff;
+    }
+
+    .profile-picture-placeholder {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid #007bff;
+        margin: 0 auto;
+    }
+
+    .profile-picture-placeholder span {
+        color: #666;
+        font-size: 16px;
+    }
+
+    .user-details {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .user-details h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .user-details .email {
+        font-size: 16px;
+        color: #666;
+    }
+
+    .profile-form {
+        margin-bottom: 20px;
+    }
+
+    .form-section {
+        margin-bottom: 30px;
+    }
+
+    .form-section h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-family: 'Mulish', sans-serif;
+        font-size: 14px;
+    }
+
+    .form-group input[type="file"] {
+        padding: 5px;
+    }
+
+    .save-button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: 'Mulish', sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .save-button:hover {
+        background-color: #0056b3;
+    }
+
+    .logout-form {
+        text-align: center;
+    }
+
+    .logout-button {
+        background-color: #dc3545;
+        color: #fff;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: 'Mulish', sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .logout-button:hover {
+        background-color: #c82333;
+    }

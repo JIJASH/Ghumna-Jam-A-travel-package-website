@@ -1,7 +1,85 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="profile-container">
+    <!-- Profile Picture Section -->
+    <div class="profile-picture-section">
+        {% if customer.profile_picture %}
+            <img src="{{ customer.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+            
+        {% else %}
+            <div class="profile-picture-placeholder">
+                <span>No Profile Picture</span>
+            </div>
+        {% endif %}
+    </div>
 
-<p>Email: {{ user.email }}</p>
-<p>Username: {{ user.username }}</p>
-<a href="{% url 'travel_app:home' %}">Back to Home</a>
+    <!-- User Details Section -->
+    <div class="user-details">
+        <h1>{{ customer.first_name }} {{ customer.last_name }}</h1>
+        <p class="email">{{ user.email }}</p>
+    </div>
+
+    <!-- Form Section -->
+    <form method="POST" enctype="multipart/form-data" class="profile-form">
+        {% csrf_token %}
+        <div class="form-section">
+            <h2>Personal Information</h2>
+            <div class="form-group">
+                <label for="id_first_name">First Name:</label>
+                {{ form.first_name }}
+            </div>
+            <div class="form-group">
+                <label for="id_middle_name">Middle Name:</label>
+                {{ form.middle_name }}
+            </div>
+            <div class="form-group">
+                <label for="id_last_name">Last Name:</label>
+                {{ form.last_name }}
+            </div>
+            <div class="form-group">
+                <label for="id_date_of_birth">Date of Birth:</label>
+                {{ form.date_of_birth }}
+            </div>
+            <div class="form-group">
+                <label for="id_gender">Gender:</label>
+                {{ form.gender }}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Contact Information</h2>
+            <div class="form-group">
+                <label for="id_address">Address:</label>
+                {{ form.address }}
+            </div>
+            <div class="form-group">
+                <label for="id_contact_number">Contact Number:</label>
+                {{ form.contact_number }}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Additional Information</h2>
+            <div class="form-group">
+                <label for="id_profile_picture">Profile Picture:</label>
+                {{ form.profile_picture }}
+            </div>
+           
+            <div class="form-group">
+                <label for="id_preferred_payment_method">Preferred Payment Method:</label>
+                {{ form.preferred_payment_method }}
+            </div>
+        </div>
+
+        <button type="submit" class="save-button">Save Changes</button>
+    </form>
+
+    <!-- Logout Button -->
+    <form action="{% url 'travel_app:logout' %}" method="post" class="logout-form">
+        {% csrf_token %}
+        <button type="submit" class="logout-button">Logout</button>
+    </form>
+</div>
+
+
 {% endblock content %}

@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from .forms import CustomerForm
+from .models import *
+
 
 
 
@@ -38,7 +41,20 @@ def logout():
 
 @login_required
 def profile(request):
-    return render(request, "profile.html", {})
+ 
+    customer, created = Customer.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        
+        form = CustomerForm(request.POST, request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()  
+            return redirect('travel_app:profile')  
+    else:
+        # Populate the form with the existing customer data
+        form = CustomerForm(instance=customer)
+
+    return render(request, 'profile.html', {'form': form})
 
 
 def discover(request):

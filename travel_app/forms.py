@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
 from random import randint
+from .models import *
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -28,3 +29,21 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()  # Save the user to the database
         return user
+    
+
+
+
+# forms.py
+
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = [
+            'first_name', 'middle_name', 'last_name', 'address', 'contact_number', 
+            'date_of_birth', 'profile_picture', 'gender',  
+            'preferred_payment_method'
+        ]
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+        }
