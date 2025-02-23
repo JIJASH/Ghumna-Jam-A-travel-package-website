@@ -2,7 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Mulish', sans-serif;
+    font-family: 'TT Norms Pro','Mulish', sans-serif;
     transition: 0.3s all ease-in-out;
    }
    body{
@@ -125,7 +125,7 @@
     }
 
     .navbar .logo img {
-        height: 40px;  /* Adjust the height of the logo */
+        height: 40px;  
     }
 
     .company-name {
@@ -148,7 +148,7 @@
     }
 
     .nav-link:hover {
-        color: #007bff;  /* Change color on hover */
+        color: #007bff;  
     }
 
     .navbar .auth-buttons {
@@ -177,7 +177,7 @@
 
     /* Main content padding to avoid overlap with the fixed navbar */
     .main-content {
-        padding-top: 70px;  /* Adjust based on navbar height */
+        padding-top: 70px;  
     }
 
 
@@ -186,17 +186,17 @@
     .auth-button {
         text-decoration: none;
         color: #333;
-        padding: 8px 16px; /* Consistent padding */
+        padding: 8px 16px; 
         border: 1px solid #333;
         border-radius: 4px;
         font-family: 'Mulish', sans-serif;
         font-weight: 700;
         background: none;
         cursor: pointer;
-        margin: 0 5px; /* Add some spacing between buttons */
-        font-size: 14px; /* Consistent font size */
-        line-height: 1.5; /* Consistent line height */
-        display: inline-block; /* Add some spacing between buttons */
+        margin: 0 5px; 
+        font-size: 14px; 
+        line-height: 1.5; 
+        display: inline-block; 
     }
 
     .auth-button:hover {
@@ -207,55 +207,122 @@
 
           /* home section styles.css */
 
+   /* General Styles */
+    body {
+        font-family: 'TT Norms Pro','Mulish', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+    }
+
+    /* Home Container */
     .home-container {
-        padding: 20px;
-        font-family: 'Mulish', sans-serif;
+        font-family: 'TT Norms Pro','Mulish', sans-serif;
+        text-align: center;
+        padding: 50px 20px;
+        max-width: 1200px;
+        margin: 70px auto 0; /* Adjusted margin-top to 70px */
     }
 
-    .home-container h1 {
-        font-size: 36px;
-        font-weight: 700;
-        color: #333;
+    /* Main Heading */
+    .main-heading {
+        font-family: 'TT Norms Pro','Mulish', sans-serif;
+        font-size: 48px;
+        font-weight: 900; /* Increased font-weight to 900 */
+        color: #000000; 
+        margin-bottom: 20px;
     }
 
-    .home-container p {
-        font-size: 18px;
-        color: #555;
+    /* Navigation Buttons */
+    .button-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
     }
 
-    .section {
-        margin-top: 30px;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .section h2 {
-        font-size: 24px;
-        font-weight: 700;
-        color: #333;
-    }
-
-    .section p {
-        font-size: 16px;
-        color: #555;
-    }
-
-    .section-link {
-        display: inline-block;
-        margin-top: 10px;
-        padding: 8px 16px;
-        background-color: #007bff;
-        color: #fff;
+    .nav-button {
         text-decoration: none;
-        border-radius: 4px;
-        font-weight: 700;
+        border: none;
+        background: none;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 10px 20px;
+        color: #333;
+        transition: color 0.3s ease, background-color 0.3s ease;
+        border-radius: 5px;
     }
 
-    .section-link:hover {
-        background-color: #0056b3;
+    .nav-button.active {
+        color: #000000; 
+        background-color: #e3f2fd;
     }
+
+    .nav-button:hover {
+        color: #000000; 
+        background-color: #e3f2fd;
+    }
+
+    /* Search Bar */
+    .search-container {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .search-input {
+        padding: 12px;
+        width: 70%; 
+        max-width: 600px; 
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        transition: border-color 0.3s ease;
+    }
+
+    .search-input:focus {
+        border-color: #007BFF;
+    }
+
+    .search-button {
+        padding: 12px 24px;
+        font-size: 16px;
+        background-color: #000000; 
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-button:hover {
+        background-color: #333; 
+    }
+    
+    .cta-heading {
+        font-size: 32px;
+        font-weight: bold;
+        color: #000000;
+        margin-bottom: 10px;
+    }
+    
+
+    /* Call to Action Section */
+    .cta-container {
+        margin-top: 40px;
+    }
+
+
+    .cta-text {
+        font-size: 18px;
+        color: #666;
+    }
+    
 
 
 
@@ -269,8 +336,8 @@
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        overflow-y: auto; /* Enable vertical scrolling */
-        height: 100vh; /* Full viewport height */
+        overflow-y: auto; 
+        height: 100vh; 
     }
 
     .profile-picture-section {
@@ -383,7 +450,7 @@
 
     .logout-form {
         text-align: center;
-    }
+        }
 
     .logout-button {
         background-color: #dc3545;
@@ -400,4 +467,197 @@
 
     .logout-button:hover {
         background-color: #c82333;
+    }
+
+
+
+
+    /* hotels.html styling */
+    .hotel-container {
+        max-width: 1200px;
+        margin: 500px auto 20px; 
+        padding: 20px;
+        font-family: 'TT Norms Pro', 'Mulish', sans-serif;
+    }
+
+    .hotel-heading {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .hotel-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .hotel-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hotel-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .hotel-image-container {
+        width: 100%;
+        height: 200px; 
+        overflow: hidden;
+        position: relative;
+    }
+
+    .hotel-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+    }
+
+    .hotel-image-placeholder {
+        width: 100%;
+        height: 200px;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        font-size: 16px;
+    }
+
+    .hotel-info {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .hotel-name {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .hotel-location {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .hotel-rating {
+        font-size: 16px;
+        color: black; 
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .hotel-rating .star {
+        color: #ffd700 !important; 
+        font-size: 18px;
+        margin-right: 2px;
+    }
+
+    .hotel-description {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+
+    .hotel-price {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .hotel-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .hotel-actions button {
+        background-color: #000000;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        flex: 1;
+    }
+
+    .hotel-actions button:hover {
+        background-color: #333;
+    }
+    /* hotel_detail.html styling */
+    .hotel-detail-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .hotel-detail-heading {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+        font-family: 'TT Norms Pro', 'Mulish', sans-serif;
+    }
+
+    .hotel-detail-content {
+        display: flex;
+        gap: 30px;
+    }
+
+    .hotel-detail-image {
+        width: 50%;
+        height: auto;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    .hotel-detail-image-placeholder {
+        width: 50%;
+        height: 300px;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+
+    .hotel-detail-info {
+        width: 50%;
+    }
+
+    .hotel-detail-info p {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+
+    .hotel-detail-info strong {
+        font-weight: bold;
+        color: #000;
     }

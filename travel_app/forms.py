@@ -18,10 +18,8 @@ class CustomUserCreationForm(UserCreationForm):
 
 
     def save(self, commit=True):
-    # Save the user but don't commit to the database yet
         user = super().save(commit=False)
 
-        # Extract the username from the email (part before @)
         email = self.cleaned_data['email']
         username=email.split("@")[0] + str(randint(1,999))  # Get the part before @
         user.username = username  # Set the username

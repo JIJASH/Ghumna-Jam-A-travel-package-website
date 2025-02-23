@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% load static %}
 <div class="profile-container">
     <!-- Profile Picture Section -->
     <div class="profile-picture-section">
@@ -7,9 +8,13 @@
             <img src="{{ customer.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
             
         {% else %}
-            <div class="profile-picture-placeholder">
-                <span>No Profile Picture</span>
-            </div>
+        <div class="profile-picture-frame">
+            {% if request.user.customer.profile_picture %}
+                <img src="{{ request.user.customer.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+            {% else %}
+                <div class="profile-picture-placeholder">No image</div>
+            {% endif %}
+        </div>
         {% endif %}
     </div>
 
@@ -80,6 +85,9 @@
         <button type="submit" class="logout-button">Logout</button>
     </form>
 </div>
+
+<script src="{% static 'js/main.js' %}"></script>
+
 
 
 {% endblock content %}

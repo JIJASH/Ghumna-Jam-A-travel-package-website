@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="hotel-detail-container">
+    <h1 class="hotel-detail-heading">{{ hotel.name }}</h1>
+    <div class="hotel-detail-content">
+        {% if hotel.image %}
+        <img src="{{ hotel.image.url }}" alt="{{ hotel.name }}" class="hotel-detail-image">
+        {% else %}
+        <div class="hotel-detail-image-placeholder">No Image Available</div>
+        {% endif %}
+        <div class="hotel-detail-info">
+            <p class="hotel-detail-location"><strong>Location:</strong> {{ hotel.location }}</p>
+            <p class="hotel-detail-rating"><strong>Rating:</strong> {{ hotel.rating }}/5</p>
+            <p class="hotel-detail-description"><strong>Description:</strong> {{ hotel.description }}</p>
+            <p class="hotel-detail-price"><strong>Price per night:</strong> ${{ hotel.price_per_night }}</p>
+            <p class="hotel-detail-contact"><strong>Contact:</strong> {{ hotel.contact_number }}</p>
+            <p class="hotel-detail-email"><strong>Email:</strong> {{ hotel.email }}</p>
+            <p class="hotel-detail-website"><strong>Website:</strong> <a href="{{ hotel.website }}" target="_blank">{{ hotel.website }}</a></p>
+            <p class="hotel-detail-check-in"><strong>Check-in Time:</strong> {{ hotel.check_in_time }}</p>
+            <p class="hotel-detail-check-out"><strong>Check-out Time:</strong> {{ hotel.check_out_time }}</p>
+            <p class="hotel-detail-rooms"><strong>Total Rooms:</strong> {{ hotel.total_rooms }}</p>
+            <p class="hotel-detail-available-rooms"><strong>Available Rooms:</strong> {{ hotel.available_rooms }}</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

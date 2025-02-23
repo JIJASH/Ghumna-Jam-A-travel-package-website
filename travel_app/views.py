@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from .forms import CustomerForm
 from .models import *
+from django.shortcuts import render, get_object_or_404
+
 
 
 
@@ -67,3 +69,31 @@ def wishlist(request):
 
 def review(request):
     return render(request, "review.html", {})
+
+
+def search_all(request):
+    return render(request, "search_all.html", {})
+
+
+
+
+def hotels(request):
+
+    hotels = Hotel.objects.all()
+    return render(request, "hotels.html", {"hotels": hotels})
+
+
+
+def hotel_detail(request, hotel_id):
+    
+    hotel = get_object_or_404(Hotel, id=hotel_id)
+    return render(request, "hotel_detail.html", {"hotel": hotel})
+
+
+
+
+def activity(request):
+    return render(request, "activity.html", {})
+
+def packages(request):
+    return render(request, "packages.html", {})

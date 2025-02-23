@@ -1,12 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h1>KATA JANEY ?</h1>
-        {% comment %} {% if user.is_authenticated %}
-            <p>You are logged in as {{ user.username }}.</p>
-        {% endif%} {% endcomment %}
-{% comment %} <form action="{% url 'travel_app:logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit">Logout</button>
-</form> {% endcomment %}
+<div class="home-container">
+    <!-- Header -->
+    <h1 class="main-heading">Kata Janey ?</h1>
+    
+    <!-- Navigation Buttons -->
+    <div class="button-container">
+        <a href="{% url 'travel_app:search_all' %}" class="nav-button">Search All</a>
+        <a href="{% url 'travel_app:hotels' %}" class="nav-button">Hotels</a>
+        <a href="{% url 'travel_app:activity' %}" class="nav-button">Activity</a>
+        <a href="{% url 'travel_app:packages' %}" class="nav-button">Packages</a>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" placeholder="Places to go, things to do..." class="search-input">
+        <button class="search-button">Search</button>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="cta-container">
+        <h2 class="cta-heading">Plan a trip that's so you</h2>
+        <p class="cta-text">Discover the best places to stay, things to do, and more.</p>
+    </div>
+</div>
+
 {% endblock content %}

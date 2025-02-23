@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="hotel-container">
+    <h1 class="hotel-heading">Popular hotels in Nepal right now !</h1>
+    <div class="hotel-grid">
+        {% for hotel in hotels %}
+        <div class="hotel-card" onclick="window.location.href='{% url 'travel_app:hotel_detail' hotel.id %}'">
+            <div class="hotel-image-container">
+                {% if hotel.image %}
+                <img src="{{ hotel.image.url }}" alt="{{ hotel.name }}" class="hotel-image">
+                {% else %}
+                <div class="hotel-image-placeholder">No Image Available</div>
+                {% endif %}
+            </div>
+            <div class="hotel-info">
+                <h2 class="hotel-name">{{ hotel.name }}</h2>
+                <p class="hotel-location">{{ hotel.location }}</p>
+                <div class="hotel-rating">
+                    {% with full_stars=hotel.rating|floatformat:0 %}
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= full_stars %}
+                                <span class="star"><i class="fas fa-star"></i></span> <!-- Full star -->
+                            {% else %}
+                                <span class="star"><i class="far fa-star"></i></span> <!-- Empty star -->
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
+                    <span>{{ hotel.rating }}/5</span>
+                </div>
+                <p class="hotel-description">{{ hotel.description|truncatewords:20 }}</p>
+                <p class="hotel-price">Rs. {{ hotel.price_per_night }} / night</p>
+                <div class="hotel-actions">
+                    <button>Book Now</button>
+                    <button>View Details</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

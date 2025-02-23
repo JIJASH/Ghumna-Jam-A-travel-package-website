@@ -7,6 +7,8 @@ from django.conf import settings
 
 
 
+app_name = 'travel_app'
+
 urlpatterns = [
     path("", home, name="home"),
     path("signup/", authView, name="authView"),
@@ -16,6 +18,11 @@ urlpatterns = [
     path("discover/", discover, name="discover"),  
     path("wishlist/", wishlist, name="wishlist"),  
     path("review/", review, name="review"),
+    path('search-all/', search_all, name='search_all'),
+    path('hotels/', hotels, name='hotels'),
+    path('hotel/<int:hotel_id>/', hotel_detail, name='hotel_detail'),
+    path('activity/', activity, name='activity'),
+    path('packages/', packages, name='packages'),
  
 
 ]

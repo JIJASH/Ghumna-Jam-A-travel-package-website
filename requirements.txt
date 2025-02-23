@@ -27,4 +27,26 @@ wheel==0.45.1
 #   "devDependencies": {
 #     "concurrently": "^8.2.0"
 #   }
+# }# {
+#   "name": "ghumna-jam",
+#   "version": "1.0.0",
+#   "scripts": {
+#     "backend": "python manage.py runserver",
+#     "frontend": "cd frontend && npm start",
+#     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+#     "test": "python manage.py test",
+#     "lint": "flake8 .",
+#     "format": "black ."
+#   },
+#   "devDependencies": {
+#     "concurrently": "^8.2.0",
+#     "flake8": "^6.0.0",
+#     "black": "^23.3.0"
+#   }
 # }
+
+
+
+{"wifi" : true , "pool" : true , "Accessible" : true , "Free Parking " : true, "Fitness centre" : true}
+
+{"VIP" : 30 , "Deluxe" : 35, "Premium" : 35}

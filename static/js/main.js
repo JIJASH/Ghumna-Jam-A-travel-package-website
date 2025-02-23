@@ -1,21 +1,26 @@
-// // Dark Mode Toggle
-// const themeButton = document.getElementById('theme-button');
-// const darkTheme = 'dark-theme';
-// const iconTheme = 'ri-sun-line';
 
-// // Check if the user previously selected a theme
-// const selectedTheme = localStorage.getItem('selected-theme');
-// const selectedIcon = localStorage.getItem('selected-icon');
+document.addEventListener('DOMContentLoaded', function() {
+    const profileForm = document.getElementById('profile-form');
+    const profilePictureFrame = document.querySelector('.profile-picture-frame img');
 
-// if (selectedTheme) {
-//     document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme);
-//     themeButton.classList[selectedIcon === 'ri-moon-line' ? 'add' : 'remove'](iconTheme);
-// }
+    profileForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-// // Toggle theme on button click
-// themeButton.addEventListener('click', () => {
-//     document.body.classList.toggle(darkTheme);
-//     themeButton.classList.toggle(iconTheme);
-//     localStorage.setItem('selected-theme', document.body.classList.contains(darkTheme) ? 'dark' : 'light');
-//     localStorage.setItem('selected-icon', themeButton.classList.contains(iconTheme) ? 'ri-moon-line' : 'ri-sun-line');
-// });
+        const formData = new FormData(profileForm);
+
+        fetch(profileForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update the profile picture frame
+                profilePictureFrame.src = data.profile_picture_url;
+            }
+        });
+    });
+});
