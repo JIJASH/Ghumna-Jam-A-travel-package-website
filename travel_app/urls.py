@@ -22,6 +22,7 @@ urlpatterns = [
     path('hotels/', hotels, name='hotels'),
     path('hotel/<int:hotel_id>/', hotel_detail, name='hotel_detail'),
     path('activity/', activity, name='activity'),
+    path("activity/<int:activity_id>/", activity_detail, name="activity_detail"),
     path('packages/', packages, name='packages'),
  
 

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="activity-detail-container">
+    <h1 class="activity-detail-heading">{{ activity.name }}</h1>
+    <div class="activity-detail-content">
+        {% if activity.image %}
+        <img src="{{ activity.image.url }}" alt="{{ activity.name }}" class="activity-detail-image">
+        {% else %}
+        <div class="activity-detail-image-placeholder">No Image Available</div>
+        {% endif %}
+        <div class="activity-detail-info">
+            <p class="activity-detail-description"><strong>Description:</strong> {{ activity.description }}</p>
+            <p class="activity-detail-duration"><strong>Duration:</strong> {{ activity.duration }}</p>
+            <p class="activity-detail-difficulty"><strong>Difficulty Level:</strong> {{ activity.get_difficulty_level_display }}</p>
+            <p class="activity-detail-participants"><strong>Participants:</strong> {{ activity.min_participants }} - {{ activity.max_participants }}</p>
+            <p class="activity-detail-price"><strong>Price:</strong> Rs. {{ activity.price }}</p>
+            <p class="activity-detail-equipment"><strong>Equipment Provided:</strong> {{ activity.equipment_provided|join:", " }}</p>
+            <p class="activity-detail-safety"><strong>Safety Guidelines:</strong> {{ activity.safety_guidelines }}</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

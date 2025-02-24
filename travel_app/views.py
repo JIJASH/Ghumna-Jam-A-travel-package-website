@@ -93,7 +93,12 @@ def hotel_detail(request, hotel_id):
 
 
 def activity(request):
-    return render(request, "activity.html", {})
+    activities = Activity.objects.all()
+    return render(request, "activity.html", {"activities": activities})
+
+def activity_detail(request, activity_id):
+    activity = get_object_or_404(Activity, id=activity_id)
+    return render(request, "activity_detail.html", {"activity": activity})
 
 def packages(request):
     return render(request, "packages.html", {})
