@@ -72,14 +72,14 @@ class HotelAdmin(admin.ModelAdmin):
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'duration', 'difficulty_level', 'price', 'min_participants', 'max_participants')
+    list_display = ('name', 'duration', 'difficulty_level', 'price', 'min_participants', 'max_participants','image')
     list_filter = ('difficulty_level',)
     search_fields = ('name', 'description')
     list_editable = ('price',)
     list_per_page = 20
     fieldsets = (
         ('Activity Details', {
-            'fields': ('name', 'description', 'duration', 'difficulty_level')
+            'fields': ('name', 'description', 'image',  'duration', 'difficulty_level')
         }),
         ('Participation', {
             'fields': ('min_participants', 'max_participants', 'price')
