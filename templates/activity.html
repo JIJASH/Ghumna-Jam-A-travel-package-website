@@ -1,65 +1,67 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="activity-container">
-    <h1 class="activity-heading">Exciting Activities to Experience in Nepal!</h1>
-    <div class="activity-grid">
-        {% for activity in activities %}
-        <div class="activity-card" onclick="window.location.href='{% url 'travel_app:activity_detail' activity.id %}'">
-            <div class="activity-image-container">
-                {% if activity.image %}
-                <img src="{{ activity.image.url }}" alt="{{ activity.name }}" class="activity-image">
-                {% else %}
-                <div class="activity-image-placeholder">No Image Available</div>
-                {% endif %}
-            </div>
-            <div class="activity-info">
-                <h2 class="activity-name">{{ activity.name }}</h2>
-                <p class="activity-location">{{ activity.location }}</p>
-                
-                <div class="activity-duration">
-                    <strong>Duration:</strong> {{ activity.duration }}
-                </div>
-                
-                <div class="activity-difficulty">
-                    <strong>Difficulty:</strong> {{ activity.get_difficulty_level_display }}
-                </div>
-
-                <div class="activity-participants">
-                    <strong>Participants:</strong> {{ activity.min_participants }} - {{ activity.max_participants }}
-                </div>
-
-                <div class="activity-equipment">
-                    <strong>Equipment Provided:</strong> 
-                    {% if activity.equipment_provided %}
-                        {{ activity.equipment_provided|join:", " }}
+{% comment %} <div class="main-content"> {% endcomment %}
+    <div class="activity-container">
+        <h1 class="activity-heading">Exciting Activities to Experience in Nepal!</h1>
+        <div class="activity-grid">
+            {% for activity in activities %}
+            <div class="activity-card" onclick="window.location.href='{% url 'travel_app:activity_detail' activity.id %}'">
+                <div class="activity-image-container">
+                    {% if activity.image %}
+                    <img src="{{ activity.image.url }}" alt="{{ activity.name }}" class="activity-image">
                     {% else %}
-                        None
+                    <div class="activity-image-placeholder">No Image Available</div>
                     {% endif %}
                 </div>
+                <div class="activity-info">
+                    <h2 class="activity-name">{{ activity.name }}</h2>
+                    <p class="activity-location">{{ activity.location }}</p>
+                    
+                    <div class="activity-duration">
+                        <strong>Duration:</strong> {{ activity.duration }}
+                    </div>
+                    
+                    <div class="activity-difficulty">
+                        <strong>Difficulty:</strong> {{ activity.get_difficulty_level_display }}
+                    </div>
 
-                <div class="activity-rating">
-                    {% with full_stars=activity.rating|floatformat:0 %}
-                        {% for i in "12345" %}
-                            {% if forloop.counter <= full_stars %}
-                                <span class="star"><i class="fas fa-star"></i></span> <!-- Full star -->
-                            {% else %}
-                                <span class="star"><i class="far fa-star"></i></span> <!-- Empty star -->
-                            {% endif %}
-                        {% endfor %}
-                    {% endwith %}
-                    <span>{{ activity.rating }}/5</span>
-                </div>
+                    <div class="activity-participants">
+                        <strong>Participants:</strong> {{ activity.min_participants }} - {{ activity.max_participants }}
+                    </div>
 
-                <p class="activity-description">{{ activity.description|truncatewords:20 }}</p>
-                <p class="activity-price">Starting from Rs. {{ activity.price }} per person</p>
-                
-                <div class="activity-actions">
-                    <button>Book Now</button>
-                    <button>View Details</button>
+                    <div class="activity-equipment">
+                        <strong>Equipment Provided:</strong> 
+                        {% if activity.equipment_provided %}
+                            {{ activity.equipment_provided|join:", " }}
+                        {% else %}
+                            None
+                        {% endif %}
+                    </div>
+
+                    <div class="activity-rating">
+                        {% with full_stars=activity.rating|floatformat:0 %}
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= full_stars %}
+                                    <span class="star"><i class="fas fa-star"></i></span> <!-- Full star -->
+                                {% else %}
+                                    <span class="star"><i class="far fa-star"></i></span> <!-- Empty star -->
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                        <span>{{ activity.rating }}/5</span>
+                    </div>
+
+                    <p class="activity-description">{{ activity.description|truncatewords:20 }}</p>
+                    <p class="activity-price">Starting from Rs. {{ activity.price }} per person</p>
+                    
+                    <div class="activity-actions">
+                        <button>Book Now</button>
+                        <button>View Details</button>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-</div>
+{% comment %} </div> {% endcomment %}
 {% endblock content %}

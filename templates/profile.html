@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
+{% comment %} <div class="main-content"> {% endcomment %}
 <div class="profile-container">
     <!-- Profile Picture Section -->
     <div class="profile-picture-section">
@@ -85,7 +86,7 @@
         <button type="submit" class="logout-button">Logout</button>
     </form>
 </div>
-
+{% comment %} </div> {% endcomment %}
 <script src="{% static 'js/main.js' %}"></script>
 
 
