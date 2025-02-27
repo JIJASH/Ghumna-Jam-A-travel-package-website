@@ -1,0 +1,79 @@
+{% extends "base.html" %} {% block content %}
+<div class="package-detail-container">
+  <h1 class="package-detail-heading">{{ package.name }}</h1>
+  <div class="package-detail-content">
+    {% if package.image %}
+    <img
+      src="{{ package.image.url }}"
+      alt="{{ package.name }}"
+      class="package-detail-image"
+    />
+    {% else %}
+    <div class="package-detail-image-placeholder">No Image Available</div>
+    {% endif %}
+    <div class="package-detail-info">
+      <p class="package-detail-description">
+        <strong>Description:</strong> {{ package.description }}
+      </p>
+      <p class="package-detail-duration">
+        <strong>Duration:</strong> {{ package.duration }} days
+      </p>
+      <p class="package-detail-difficulty">
+        <strong>Difficulty:</strong> {{ package.difficulty_level }}
+      </p>
+        <p class="package-detail-participants">
+          <strong>Participants:</strong> {{ package.max_participants }}</strong>
+        </p>
+        
+          
+      <p class="package-detail-activities">
+        <strong>Activities:</strong>
+        <ul style="list-style-type: none;">
+        {%for activity in package.activities.all%}
+        <li>{{activity}}</li>
+        {%endfor%}</ul>
+      </p>
+      <p class="package-detail-location">
+        <strong>Location:</strong> {{ package.location }}
+      </p><p class="package-detail-guide">
+            <strong>Guide:</strong> {{ package.tour_guide }}
+          </p>
+      <p class="package-detail-features">
+        <strong>Features:</strong>
+        {{package.features.activities|join:", "}}
+      </p>
+      <p class="package-detail-includedServices">
+        <strong>Included Services:</strong>
+        <!-- {%for key,value in package.included_services.items%} {{key}}: {{value}},
+        {%endfor%} -->
+        
+        {{package.included_services.included|join:", "}}
+      </p>
+      <p class="package-detail-excludedServices">
+        <strong>Excluded Services:</strong> 
+        {{package.excluded_services.excluded|join:", "}}
+      </p>
+      <p class="package-detail-hotel"></p>
+        <strong>Hotel:</strong>
+      {%for hotel in package.hotels.all%} 
+       - {{hotel}}
+      {%endfor%}
+      </p>
+      <p class="package-detail-meeting-point">
+            <strong>Meeting Point:</strong> {{ package.meeting_point }}
+          </p>
+     <p class="package-detail-available-from">
+        <strong>Available From:</strong> {{ package.available_from }}
+        <strong>To:</strong> {{ package.available_to }}
+      </p> 
+      <p class="package-detail-price">
+        <strong>Price:</strong> Rs. {{ package.price }}
+      </p>
+    </div>
+    <div class="package-detail-book">
+      <button>Book Now</button>
+    </div>
+  </div>
+  
+</div>
+  {% endblock content %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %} {% block content %} {% comment %}
+<div class="main-content">
+  {% endcomment %}
+  <div class="package-container">
+    <h1 class="package-heading">Trending packages right now</h1>
+    <div class="package-grid">
+      {% for package in packages %}
+      <div
+        class="package-card"
+        onclick="window.location.href='{% url 'travel_app:package_datail' package.id %}'"
+        style="cursor: pointer"
+      >
+        <div class="package-image-container">
+          {% if package.image %}
+          <img
+            src="{{ package.image.url }}"
+            alt="{{ package.name }}"
+            class="package-image"
+          />
+          {% else %}
+          <div class="package-image-placeholder">No Image Available</div>
+          {% endif %}
+        </div>
+        <div class="package-info">
+          <h2 class="package-name">{{ package.name }}</h2>
+          <!-- <p class="package-location">{{ package.location }}</p> -->
+          <p class="package-description">
+            {{ package.description|truncatewords:20 }}
+          </p>
+
+          <div class="package-duration">
+            <strong>Duration:</strong> {{ package.duration }} days
+          </div>
+
+          <div class="package-difficulty">
+            <strong>Difficulty:</strong> {{ package.difficulty_level }}
+          </div>
+
+          <div class="package-participants">
+            <strong>Participants:</strong> {{ package.max_participants }}
+          </div>
+
+          <div class="package-equipment">
+            <strong>Equipment Provided:</strong>
+            {% if package.equipment_provided %} {{
+            package.equipment_provided|join:", " }} {% else %} None {% endif %}
+          </div>
+          <!--
+        <div class="package-rating">
+            {% with full_stars=package.rating|floatformat:0 %}
+                {% for i in "12345" %}
+                    {% if forloop.counter <= full_stars %}
+                        <span class="star"><i class="fas fa-star"></i></span>
+                    {% else %}
+                        <span class="star"><i class="far fa-star"></i></span>
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+            <span>{{ package.rating }}/5</span>
+        </div>
+  -->
+          <p class="package-price">
+            Starting from Rs. {{ package.price }} per person
+          </p>
+
+          <div class="package-actions">
+            <button>Book Now</button>
+            <button>View Details</button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% comment %}
+</div>
+{% endcomment %} {% endblock content %}

@@ -24,6 +24,7 @@ urlpatterns = [
     path('activity/', activity, name='activity'),
     path("activity/<int:activity_id>/", activity_detail, name="activity_detail"),
     path('packages/', packages, name='packages'),
+    path("packages/<int:package_id>/", package_datail, name="package_datail"),
  
 
 ]

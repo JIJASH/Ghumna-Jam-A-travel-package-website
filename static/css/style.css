@@ -1,878 +1,1078 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'TT Norms Pro','Mulish', sans-serif;
-    transition: 0.3s all ease-in-out;
-   }
-   body{
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 100%;
-   background-color: #fff;
-   }
-
-   html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    }
-   .shadow-wrap{
-    border-radius: 5px;
-    padding: 25px;
-    background-color:#F0F2FB;
-   }
-   .form-wrap{
-    background-color: #fff;
-   padding: 70px;
-   }
-   .form-wrap form *{
-    display: block;
-    width: 100%;
-   }
-   .form-wrap form label{
-   margin-bottom: 5px;
-   font-size: 14px;
-   font-weight: 700;
-   line-height: 26px; 
-   }
-   .form-wrap form input{
-   padding: 12px 20px;
-   border-radius: 5px;
-   border: 1px solid #DAE1F5;
-   background: #FFF; 
-   color: #545D7A; 
-   }
-   #id_username{
-    margin-bottom: 20px;
-   }
-   .form-wrap button{
-    border-radius: 5px;
-   background: #10182F;
-   color: #FFF;
-   cursor: pointer;
-   text-align: center;
-   font-size: 16px;
-   padding: 12px 68px;
-   font-weight: 700;
-   border: 1px solid transparent;
-   margin-top: 30px;
-   line-height: 26px; 
-   }
-   .signup-link{
-    color: #10182F;
-    font-size: 15px;
-    margin-top: 20px;
-    text-align: center;
-    line-height: 25px;
-    display: block;
-   text-decoration: none;
-   }
-   .signup-link:hover{
-    text-decoration: underline;
-   }
-   .form-wrap button:hover{
-    background-color: #fff;
-    color: #10182F;
-    border-color: #10182F;
-   
-   }
-
-
-
-   /*helptext*/
-   .helptext {
-    display: none;
-    }
-
-
-
-
-    /* Password requirements styles */
-   .password-requirements {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    }
-
-    
-    .password-requirements ul {
-        margin: 5px 0 0 20px;
-    }
-
-    .password-requirements p {
-        margin: 0;
-        font-weight: bold;
-    }
-
- 
-
-    /* Navbar styles */
-    .navbar {
-        height: 60px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        background-color: #f8f9fa;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000; 
-    }
-
-    .navbar .logo {
-        display: flex;
-        align-items: center;
-    }
-
-    .navbar .logo img {
-        height: 40px;  
-    }
-
-    .company-name {
-        font-size: 24px;
-        font-weight: 700;
-        margin-left: 10px;
-        color: #333;
-    }
-
-    .nav-links {
-        display: flex;
-        gap: 20px;
-    }
-
-    .nav-link {
-        text-decoration: none;
-        color: #333;
-        font-weight: 700;
-        font-size: 16px;
-    }
-
-    .nav-link:hover {
-        color: #007bff;  
-    }
-
-    .navbar .auth-buttons {
-        display: flex;
-        gap: 10px;
-    }
-    .navbar .auth-buttons a {
-        text-decoration: none;
-        color: #333;
-        padding: 8px 16px;
-        border: 1px solid #333;
-        border-radius: 4px;
-        font-family: 'Mulish', sans-serif;
-        font-weight: 700;
-    }
-
-    .navbar .auth-buttons a:hover {
-        background-color: #333;
-        color: #fff;
-    }
-    .welcome-message {
-        font-weight: 700;
-        color: #333;
-        margin-right: 10px;
-    }
-
-    /* Main content padding to avoid overlap with the fixed navbar */
-    .main-content {
-       padding-top: 100%;
-       width : 100%;
-       overflow-y: auto;
-       
-      
-    }
-
-
-
-    /* Style for auth buttons (Signup, Login, Profile, Logout) */
-    .auth-button {
-        text-decoration: none;
-        color: #333;
-        padding: 8px 16px; 
-        border: 1px solid #333;
-        border-radius: 4px;
-        font-family: 'Mulish', sans-serif;
-        font-weight: 700;
-        background: none;
-        cursor: pointer;
-        margin: 0 5px; 
-        font-size: 14px; 
-        line-height: 1.5; 
-        display: inline-block; 
-    }
-
-    .auth-button:hover {
-        background-color: #333;
-        color: #fff;
-    }
-
-
-          /* home section styles.css */
-
-   /* General Styles */
-    body {
-        font-family: 'TT Norms Pro','Mulish', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f9f9f9;
-        color: #333;
-    }
-
-    /* Home Container */
-    .home-container {
-        font-family: 'TT Norms Pro','Mulish', sans-serif;
-        text-align: center;
-        padding: 50px 20px;
-        max-width: 1200px;
-        margin: 0 auto; /* Remove margin-top */
-    }
-
-    /* Main Heading */
-    .main-heading {
-        font-family: 'TT Norms Pro','Mulish', sans-serif;
-        font-size: 48px;
-        font-weight: 900; /* Increased font-weight to 900 */
-        color: #000000; 
-        margin-bottom: 20px;
-    }
-
-    /* Navigation Buttons */
-    .button-container {
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .nav-button {
-        text-decoration: none;
-        border: none;
-        background: none;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        padding: 10px 20px;
-        color: #333;
-        transition: color 0.3s ease, background-color 0.3s ease;
-        border-radius: 5px;
-    }
-
-    .nav-button.active {
-        color: #000000; 
-        background-color: #e3f2fd;
-    }
-
-    .nav-button:hover {
-        color: #000000; 
-        background-color: #e3f2fd;
-    }
-
-    /* Search Bar */
-    .search-container {
-        margin-top: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .search-input {
-        padding: 12px;
-        width: 70%; 
-        max-width: 600px; 
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        outline: none;
-        transition: border-color 0.3s ease;
-    }
-
-    .search-input:focus {
-        border-color: #007BFF;
-    }
-
-    .search-button {
-        padding: 12px 24px;
-        font-size: 16px;
-        background-color: #000000; 
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .search-button:hover {
-        background-color: #333; 
-    }
-    
-    .cta-heading {
-        font-size: 32px;
-        font-weight: bold;
-        color: #000000;
-        margin-bottom: 10px;
-    }
-    
-
-    /* Call to Action Section */
-    .cta-container {
-        margin-top: 40px;
-    }
-
-
-    .cta-text {
-        font-size: 18px;
-        color: #666;
-    }
-    
-
-
-
-
-    /* Profile page styles */
-    .profile-container {
-        max-width: 800px;
-        /* margin: 0 auto; */
-        margin-top: 55%;
-        padding: 80px 20px 20px;
-        font-family: 'Mulish', sans-serif;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        overflow-y: auto;
-        min-height: 100vh; 
-    }
-
-    .profile-picture-section {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .profile-picture {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid #007bff;
-    }
-
-    .profile-picture-placeholder {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background-color: #f0f0f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 4px solid #007bff;
-        margin: 0 auto;
-    }
-
-    .profile-picture-placeholder span {
-        color: #666;
-        font-size: 16px;
-    }
-
-    .user-details {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .user-details h1 {
-        font-size: 28px;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 5px;
-    }
-
-    .user-details .email {
-        font-size: 16px;
-        color: #666;
-    }
-
-    .profile-form {
-        margin-bottom: 20px;
-    }
-
-    .form-section {
-        margin-bottom: 30px;
-    }
-
-    .form-section h2 {
-        font-size: 24px;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 15px;
-        border-bottom: 2px solid #007bff;
-        padding-bottom: 5px;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .form-group label {
-        display: block;
-        font-weight: 700;
-        margin-bottom: 5px;
-        color: #333;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-family: 'Mulish', sans-serif;
-        font-size: 14px;
-    }
-
-    .form-group input[type="file"] {
-        padding: 5px;
-    }
-
-    .save-button {
-        background-color: #007bff;
-        color: #fff;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-family: 'Mulish', sans-serif;
-        font-weight: 700;
-        font-size: 16px;
-        width: 100%;
-        margin-top: 20px;
-    }
-
-    .save-button:hover {
-        background-color: #0056b3;
-    }
-
-    .logout-form {
-        text-align: center;
-        }
-
-    .logout-button {
-        background-color: #dc3545;
-        color: #fff;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-family: 'Mulish', sans-serif;
-        font-weight: 700;
-        font-size: 16px;
-        width: 100%;
-    }
-
-    .logout-button:hover {
-        background-color: #c82333;
-    }
-
-
-
-
-    /* hotels.html styling */
-    .hotel-container {
-        max-width: 1200px;
-        /* margin: 80px auto;  */
-        margin-top: 70%;
-        padding: 20px;
-        font-family: 'TT Norms Pro', 'Mulish', sans-serif;
-    }
-
-    .hotel-heading {
-        font-size: 36px;
-        font-weight: bold;
-        color: #333;
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .hotel-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-    }
-
-    .hotel-card {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        min-height: 400px; 
-    }
-
-    .hotel-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .hotel-image-container {
-        width: 100%;
-        height: 200px; 
-        overflow: hidden;
-        position: relative;
-    }
-
-    .hotel-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; 
-    }
-
-    .hotel-image-placeholder {
-        width: 100%;
-        height: 200px;
-        background-color: #f0f0f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #666;
-        font-size: 16px;
-    }
-
-    .hotel-info {
-        padding: 20px;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .hotel-name {
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
-    .hotel-location {
-        font-size: 16px;
-        color: #666;
-        margin-bottom: 10px;
-    }
-
-    .hotel-rating {
-        font-size: 16px;
-        color: black; 
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-    }
-    
-    .hotel-rating .star {
-        color: #ffd700 !important; 
-        font-size: 18px;
-        margin-right: 2px;
-    }
-
-    .hotel-description {
-        font-size: 14px;
-        color: #666;
-        line-height: 1.5;
-        margin-bottom: 15px;
-    }
-
-    .hotel-price {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
-    .hotel-actions {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .hotel-actions button {
-        background-color: #000000;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-        flex: 1;
-    }
-
-    .hotel-actions button:hover {
-        background-color: #333;
-    }
-    /* hotel_detail.html styling */
-    .hotel-detail-container {
-        max-width: 1200px;
-        margin: 20px auto;
-        padding: 20px;
-    }
-
-    .hotel-detail-heading {
-        font-size: 36px;
-        font-weight: bold;
-        color: #333;
-        text-align: center;
-        margin-bottom: 30px;
-        font-family: 'TT Norms Pro', 'Mulish', sans-serif;
-    }
-
-    .hotel-detail-content {
-        display: flex;
-        gap: 30px;
-    }
-
-    .hotel-detail-image {
-        width: 50%;
-        height: auto;
-        border-radius: 10px;
-        object-fit: cover;
-    }
-
-    .hotel-detail-image-placeholder {
-        width: 50%;
-        height: 300px;
-        background-color: #f0f0f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #666;
-        font-size: 16px;
-        border-radius: 10px;
-    }
-
-    .hotel-detail-info {
-        width: 50%;
-    }
-
-    .hotel-detail-info p {
-        font-size: 16px;
-        color: #333;
-        margin-bottom: 15px;
-        line-height: 1.5;
-    }
-
-    .hotel-detail-info strong {
-        font-weight: bold;
-        color: #000;
-    }
-
-    /* activity.html styling */
-
-    
-    .activity-container {
-        max-width: 1200px;
-        /* margin: 0 auto;  */
-        margin-top: 95%;
-        padding: 20px;
-        font-family: 'TT Norms Pro', 'Mulish', sans-serif;
-    }
-
-    .activity-heading {
-    font-size: 36px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    margin-bottom: 30px;
-    }
-
-    .activity-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    }
-
-    .activity-card {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        min-height: 400px; 
-    }
-
-    .activity-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .activity-image-container {
-    width: 100%;
-    height: 200px; 
-    overflow: hidden;
-    position: relative;
-    }
-
-    .activity-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-    }
-
-    .activity-image-placeholder {
-    width: 100%;
-    height: 200px;
-    background-color: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
-    font-size: 16px;
-    }
-
-    .activity-info {
-    padding: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    }
-
-    .activity-name {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-    }
-
-    .activity-location {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 10px;
-    }
-
-    .activity-rating {
-    font-size: 16px;
-    color: black; 
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    }
-
-    .activity-rating .star {
-    color: #ffd700 !important; 
-    font-size: 18px;
-    margin-right: 2px;
-    }
-
-    .activity-description {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    }
-
-    .activity-duration, .activity-difficulty, .activity-participants, .activity-equipment {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 10px;
-    }
-
-    .activity-price {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-    }
-
-    .activity-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    }
-
-    .activity-actions button {
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    flex: 1;
-    }
-
-    .activity-actions button:hover {
-    background-color: #333;
-    }
-
-    /* activity_detail.html styling */
-    .activity-detail-container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    }
-
-    .activity-detail-heading {
-    font-size: 36px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    margin-bottom: 30px;
-    font-family: 'TT Norms Pro', 'Mulish', sans-serif;
-    }
-
-    .activity-detail-content {
-    display: flex;
-    gap: 30px;
-    }
-
-    .activity-detail-image {
-    width: 50%;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    }
-
-    .activity-detail-image-placeholder {
-    width: 50%;
-    height: 300px;
-    background-color: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
-    font-size: 16px;
-    border-radius: 10px;
-    }
-
-    .activity-detail-info {
-    width: 50%;
-    }
-
-    .activity-detail-info p {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 15px;
-    line-height: 1.5;
-    }
-
-    .activity-detail-info strong {
-    font-weight: bold;
-    color: #000;
-    }
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "TT Norms Pro", "Mulish", sans-serif;
+  transition: 0.3s all ease-in-out;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #fff;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.shadow-wrap {
+  border-radius: 5px;
+  padding: 25px;
+  background-color: #f0f2fb;
+}
+.form-wrap {
+  background-color: #fff;
+  padding: 70px;
+}
+.form-wrap form * {
+  display: block;
+  width: 100%;
+}
+.form-wrap form label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 26px;
+}
+.form-wrap form input {
+  padding: 12px 20px;
+  border-radius: 5px;
+  border: 1px solid #dae1f5;
+  background: #fff;
+  color: #545d7a;
+}
+#id_username {
+  margin-bottom: 20px;
+}
+.form-wrap button {
+  border-radius: 5px;
+  background: #10182f;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  padding: 12px 68px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  margin-top: 30px;
+  line-height: 26px;
+}
+.signup-link {
+  color: #10182f;
+  font-size: 15px;
+  margin-top: 20px;
+  text-align: center;
+  line-height: 25px;
+  display: block;
+  text-decoration: none;
+}
+.signup-link:hover {
+  text-decoration: underline;
+}
+.form-wrap button:hover {
+  background-color: #fff;
+  color: #10182f;
+  border-color: #10182f;
+}
+
+/*helptext*/
+.helptext {
+  display: none;
+}
+
+/* Password requirements styles */
+.password-requirements {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.password-requirements ul {
+  margin: 5px 0 0 20px;
+}
+
+.password-requirements p {
+  margin: 0;
+  font-weight: bold;
+}
+
+/* Navbar styles */
+.navbar {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.navbar .logo {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .logo img {
+  height: 40px;
+}
+
+.company-name {
+  font-size: 24px;
+  font-weight: 700;
+  margin-left: 10px;
+  color: #333;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+.navbar .auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+.navbar .auth-buttons a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 16px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-family: "Mulish", sans-serif;
+  font-weight: 700;
+}
+
+.navbar .auth-buttons a:hover {
+  background-color: #333;
+  color: #fff;
+}
+.welcome-message {
+  font-weight: 700;
+  color: #333;
+  margin-right: 10px;
+}
+
+/* Main content padding to avoid overlap with the fixed navbar */
+.main-content {
+  padding-top: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+/* Style for auth buttons (Signup, Login, Profile, Logout) */
+.auth-button {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 16px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-family: "Mulish", sans-serif;
+  font-weight: 700;
+  background: none;
+  cursor: pointer;
+  margin: 0 5px;
+  font-size: 14px;
+  line-height: 1.5;
+  display: inline-block;
+}
+
+.auth-button:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+/* home section styles.css */
+
+/* General Styles */
+body {
+  font-family: "TT Norms Pro", "Mulish", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Home Container */
+.home-container {
+  font-family: "TT Norms Pro", "Mulish", sans-serif;
+  text-align: center;
+  padding: 50px 20px;
+  max-width: 1200px;
+  margin: 0 auto; /* Remove margin-top */
+}
+
+/* Main Heading */
+.main-heading {
+  font-family: "TT Norms Pro", "Mulish", sans-serif;
+  font-size: 48px;
+  font-weight: 900; /* Increased font-weight to 900 */
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+/* Navigation Buttons */
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.nav-button {
+  text-decoration: none;
+  border: none;
+  background: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 20px;
+  color: #333;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+.nav-button.active {
+  color: #000000;
+  background-color: #e3f2fd;
+}
+
+.nav-button:hover {
+  color: #000000;
+  background-color: #e3f2fd;
+}
+
+/* Search Bar */
+.search-container {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-input {
+  padding: 12px;
+  width: 70%;
+  max-width: 600px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+}
+
+.search-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #333;
+}
+
+.cta-heading {
+  font-size: 32px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+/* Call to Action Section */
+.cta-container {
+  margin-top: 40px;
+}
+
+.cta-text {
+  font-size: 18px;
+  color: #666;
+}
+
+/* Profile page styles */
+.profile-container {
+  width: 600px;
+  position: absolute;
+  height: 80vh;
+  top: 100px;
+  padding: 20px 20px 20px;
+  font-family: "Mulish", sans-serif;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.profile-picture-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #007bff;
+}
+
+.profile-picture-placeholder {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #007bff;
+  margin: 0 auto;
+}
+
+.profile-picture-placeholder span {
+  color: #666;
+  font-size: 16px;
+}
+
+.user-details {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.user-details h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.user-details .email {
+  font-size: 16px;
+  color: #666;
+}
+
+.profile-form {
+  margin-bottom: 20px;
+}
+
+.form-section {
+  margin-bottom: 30px;
+}
+
+.form-section h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: "Mulish", sans-serif;
+  font-size: 14px;
+}
+
+.form-group input[type="file"] {
+  padding: 5px;
+}
+
+.save-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Mulish", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.logout-form {
+  text-align: center;
+}
+
+.logout-button {
+  background-color: #dc3545;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Mulish", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  width: 100%;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+/* hotels.html styling */
+.hotel-container {
+  max-width: 1200px;
+  /* margin: 80px auto;  */
+  margin-top: 70%;
+  padding: 20px;
+  font-family: "TT Norms Pro", "Mulish", sans-serif;
+}
+
+.hotel-heading {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.hotel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.hotel-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+}
+
+.hotel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hotel-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.hotel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hotel-image-placeholder {
+  width: 100%;
+  height: 200px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
+}
+
+.hotel-info {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hotel-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.hotel-location {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.hotel-rating {
+  font-size: 16px;
+  color: black;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.hotel-rating .star {
+  color: #ffd700 !important;
+  font-size: 18px;
+  margin-right: 2px;
+}
+
+.hotel-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.hotel-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.hotel-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.hotel-actions button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  flex: 1;
+}
+
+.hotel-actions button:hover {
+  background-color: #333;
+}
+/* hotel_detail.html styling */
+.hotel-detail-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.hotel-detail-heading {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: "TT Norms Pro", "Mulish", sans-serif;
+}
+
+.hotel-detail-content {
+  display: flex;
+  gap: 30px;
+}
+
+.hotel-detail-image {
+  width: 50%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.hotel-detail-image-placeholder {
+  width: 50%;
+  height: 300px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.hotel-detail-info {
+  width: 50%;
+}
+
+.hotel-detail-info p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.hotel-detail-info strong {
+  font-weight: bold;
+  color: #000;
+}
+
+/* activity.html styling */
+
+.activity-container {
+  max-width: 1200px;
+  /* margin: 0 auto;  */
+  margin-top: 95%;
+  padding: 20px;
+  font-family: "TT Norms Pro", "Mulish", sans-serif;
+}
+
+.activity-heading {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.activity-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+}
+
+.activity-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.activity-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.activity-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.activity-image-placeholder {
+  width: 100%;
+  height: 200px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
+}
+
+.activity-info {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.activity-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.activity-location {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.activity-rating {
+  font-size: 16px;
+  color: black;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.activity-rating .star {
+  color: #ffd700 !important;
+  font-size: 18px;
+  margin-right: 2px;
+}
+
+.activity-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.activity-duration,
+.activity-difficulty,
+.activity-participants,
+.activity-equipment {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.activity-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.activity-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.activity-actions button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  flex: 1;
+}
+
+.activity-actions button:hover {
+  background-color: #333;
+}
+
+/* activity_detail.html styling */
+.activity-detail-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.activity-detail-heading {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: "TT Norms Pro", "Mulish", sans-serif;
+}
+
+.activity-detail-content {
+  display: flex;
+  gap: 30px;
+}
+
+.activity-detail-image {
+  width: 50%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.activity-detail-image-placeholder {
+  width: 50%;
+  height: 300px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.activity-detail-info {
+  width: 50%;
+}
+
+.activity-detail-info p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.activity-detail-info strong {
+  font-weight: bold;
+  color: #000;
+}
+
+/* Packages styling */
+
+.package-container {
+  max-width: 1200px;
+  /* margin: 0 auto;  */
+  /* margin-top: 95%; */
+  width: 100%;
+  position: absolute;
+  top: 80px;
+  padding: 20px;
+  font-family: "TT Norms Pro", "Mulish", sans-serif;
+}
+
+.package-heading {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.package-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+}
+
+.package-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.package-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.package-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.package-image-placeholder {
+  width: 100%;
+  height: 200px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
+}
+
+.package-info {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.package-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.package-location {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.package-rating {
+  font-size: 16px;
+  color: black;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.package-rating .star {
+  color: #ffd700 !important;
+  font-size: 18px;
+  margin-right: 2px;
+}
+
+.package-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.package-duration,
+.package-difficulty,
+.package-participants,
+.package-equipment {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.package-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.package-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.package-actions button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  flex: 1;
+}
+
+.package-actions button:hover {
+  background-color: #333;
+}
+
+/* package_detail.html styling */
+.package-detail-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.package-detail-heading {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: "TT Norms Pro", "Mulish", sans-serif;
+}
+
+.package-detail-content {
+  display: flex;
+  gap: 30px;
+}
+
+.package-detail-image {
+  width: 50%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.package-detail-image-placeholder {
+  width: 50%;
+  height: 300px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.package-detail-info {
+  width: 50%;
+}
+
+.package-detail-info p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.package-detail-info strong {
+  font-weight: bold;
+  color: #000;
+}
+
+.package-detail-book button {
+  display: none;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  flex: 1;
+}

@@ -101,4 +101,9 @@ def activity_detail(request, activity_id):
     return render(request, "activity_detail.html", {"activity": activity})
 
 def packages(request):
-    return render(request, "packages.html", {})
+    packages = TravelPackage.objects.all()
+    return render(request, "packages.html", {"packages": packages})
+
+def package_datail(request, package_id):
+    package = get_object_or_404(TravelPackage, id=package_id)
+    return render(request, "package_detail.html", {"package": package})
