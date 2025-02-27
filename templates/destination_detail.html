@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="destination-detail-container">
+    <h1>{{ destination.name }}</h1>
+    <div class="destination-detail">
+        <div class="destination-image-container">
+            {% if destination.image %}
+            <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="destination-image">
+            {% else %}
+            <div class="destination-image-placeholder">No Image Available</div>
+            {% endif %}
+        </div>
+        <div class="destination-info">
+            <p><strong>Location:</strong> {{ destination.location }}</p>
+            <p><strong>Best Time to Visit:</strong> {{ destination.best_time_to_visit }}</p>
+            <p><strong>Climate:</strong> {{ destination.climate }}</p>
+            <p><strong>Popular Attractions:</strong></p>
+            <ul>
+                {% for attraction in destination.popular_attractions %}
+                <li>{{ attraction }}</li>
+                {% endfor %}
+            </ul>
+            <p><strong>Description:</strong> {{ destination.description }}</p>
+        </div>
+    </div>
+
+    <h2>Hotels in {{ destination.name }}</h2>
+    <div class="hotel-grid">
+        {% for hotel in destination.hotels.all %}
+        <div class="hotel-card">
+            <div class="hotel-image-container">
+                {% if hotel.image %}
+                <img src="{{ hotel.image.url }}" alt="{{ hotel.name }}" class="hotel-image">
+                {% else %}
+                <div class="hotel-image-placeholder">No Image Available</div>
+                {% endif %}
+            </div>
+            <div class="hotel-info">
+                <h3 class="hotel-name">{{ hotel.name }}</h3>
+                <p class="hotel-location">{{ hotel.location }}</p>
+                <p class="hotel-price">Rs. {{ hotel.price_per_night }} / night</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Activities in {{ destination.name }}</h2>
+    <div class="activity-grid">
+        {% for activity in destination.activities.all %}
+        <div class="activity-card">
+            <div class="activity-image-container">
+                {% if activity.image %}
+                <img src="{{ activity.image.url }}" alt="{{ activity.name }}" class="activity-image">
+                {% else %}
+                <div class="activity-image-placeholder">No Image Available</div>
+                {% endif %}
+            </div>
+            <div class="activity-info">
+                <h3 class="activity-name">{{ activity.name }}</h3>
+                <p class="activity-price">Starting from Rs. {{ activity.price }} per person</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Travel Packages for {{ destination.name }}</h2>
+    <div class="package-grid">
+        {% for package in destination.travel_packages.all %}
+        <div class="package-card">
+            <h3 class="package-name">{{ package.name }}</h3>
+            <p class="package-price">Rs. {{ package.price }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

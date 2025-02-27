@@ -59,8 +59,16 @@ def profile(request):
     return render(request, 'profile.html', {'form': form})
 
 
+
+
 def discover(request):
-    return render(request, "discover.html", {})
+    destinations = Destination.objects.all()
+    return render(request, "discover.html", {"destinations": destinations})
+
+
+def destination_detail(request, destination_id):
+    destination = get_object_or_404(Destination, id=destination_id)
+    return render(request, "destination_detail.html", {"destination": destination})
 
 
 def wishlist(request):

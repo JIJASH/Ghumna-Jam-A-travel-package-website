@@ -1,5 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Discover</h1>
-<p>Explore amazing destinations and plan your next adventure.</p>
+<div class="destination-detail-container">
+    <h1>Discover Amazing Destinations</h1>
+    <div class="destination-grid">
+        {% for destination in destinations %}
+        <div class="destination-card" onclick="window.location.href='{% url 'travel_app:destination_detail' destination.id %}'">
+            <div class="destination-image-container">
+                {% if destination.image %}
+                <img src="{{ destination.image.url }}" alt="{{ destination.name }}" class="destination-image">
+                {% else %}
+                <div class="destination-image-placeholder">No Image Available</div>
+                {% endif %}
+            </div>
+            <div class="destination-info">
+                <h2 class="destination-name">{{ destination.name }}</h2>
+                <p class="destination-location">{{ destination.location }}</p>
+                <p class="destination-description">{{ destination.description|truncatewords:20 }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}

@@ -335,5 +335,28 @@ class WishList(models.Model):
     
     def __str__(self):
         return f"Wishlist item for {self.user.username}: {self.travel_package.name}"
+    
+
+
+
+class Destination(models.Model):
+    name = models.CharField(max_length=200, help_text="Name of the destination")
+    description = models.TextField(help_text="Brief description of the destination")
+    location = models.CharField(max_length=255, help_text="Location of the destination (e.g., city, country)")
+    image = models.ImageField(upload_to='destination_images/', blank=True, null=True, help_text="Image of the destination")
+    best_time_to_visit = models.CharField(max_length=255, blank=True, null=True, help_text="Best time to visit the destination")
+    climate = models.CharField(max_length=255, blank=True, null=True, help_text="Climate of the destination")
+    popular_attractions = models.JSONField(default=list, blank=True, help_text="List of popular attractions (e.g., ['Pashupatinath', 'Boudhanath Stupa'])")
+
+    hotels = models.ManyToManyField(Hotel, related_name='destinations', blank=True, help_text="Hotels available in this destination")
+    activities = models.ManyToManyField(Activity, related_name='destinations', blank=True, help_text="Activities available in this destination")
+    travel_packages = models.ManyToManyField(TravelPackage, related_name='destinations', blank=True, help_text="Travel packages available for this destination")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Destination"
+        verbose_name_plural = "Destinations"
 
 
