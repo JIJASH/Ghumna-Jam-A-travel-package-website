@@ -39,12 +39,8 @@
           <div class="package-participants">
             <strong>Participants:</strong> {{ package.max_participants }}
           </div>
-
-          <div class="package-equipment">
-            <strong>Equipment Provided:</strong>
-            {% if package.equipment_provided %} {{
-            package.equipment_provided|join:", " }} {% else %} None {% endif %}
-          </div><div class="package-rating">
+          
+          <div class="package-rating">
                         {% with full_stars=activity.rating|floatformat:0 %}
                             {% for i in "12345" %}
                                 {% if forloop.counter <= full_stars %}
