@@ -24,7 +24,9 @@
         <div class="package-info">
           <h2 class="package-name">{{ package.name }}</h2>
           <!-- <p class="package-location">{{ package.location }}</p> -->
-          
+          <p class="package-description">
+            {{ package.description|truncatewords:20 }}
+          </p>
 
           <div class="package-duration">
             <strong>Duration:</strong> {{ package.duration }} days
@@ -37,12 +39,19 @@
           <div class="package-participants">
             <strong>Participants:</strong> {{ package.max_participants }}
           </div>
-
-          <div class="package-equipment">
-            <strong>Equipment Provided:</strong>
-            {% if package.equipment_provided %} {{
-            package.equipment_provided|join:", " }} {% else %} None {% endif %}
-          </div>
+          
+          <div class="package-rating">
+                        {% with full_stars=activity.rating|floatformat:0 %}
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= full_stars %}
+                                    <span class="star"><i class="fas fa-star"></i></span> <!-- Full star -->
+                                {% else %}
+                                    <span class="star"><i class="far fa-star"></i></span> <!-- Empty star -->
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                        <span>{{ activity.rating }}/5</span>
+                    </div>
           <!--
         <div class="package-rating">
             {% with full_stars=package.rating|floatformat:0 %}
@@ -56,9 +65,7 @@
             {% endwith %}
             <span>{{ package.rating }}/5</span>
         </div>
-  --><p class="package-description">
-            {{ package.description|truncatewords:20 }}
-          </p>
+  -->
           <p class="package-price">
             Starting from Rs. {{ package.price }} per person
           </p>

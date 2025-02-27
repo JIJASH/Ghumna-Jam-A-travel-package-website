@@ -1010,6 +1010,7 @@ body {
 /* package_detail.html styling */
 .package-detail-container {
   max-width: 1200px;
+  height: 80vh;
   margin: 20px auto;
   padding: 20px;
 }
@@ -1030,7 +1031,7 @@ body {
 
 .package-detail-image {
   width: 50%;
-  height: auto;
+
   border-radius: 10px;
   object-fit: cover;
 }
