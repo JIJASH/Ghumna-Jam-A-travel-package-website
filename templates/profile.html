@@ -28,6 +28,10 @@
     <!-- Form Section -->
     <form method="POST" enctype="multipart/form-data" class="profile-form">
         {% csrf_token %}
+
+        <input type="hidden" name="type" value="{{ request.GET.type }}">
+        <input type="hidden" name="id" value="{{ request.GET.id }}">
+        
         <div class="form-section">
             <h2>Personal Information</h2>
             <div class="form-group">

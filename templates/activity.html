@@ -55,7 +55,7 @@
                     <p class="activity-price">Starting from Rs. {{ activity.price }} per person</p>
                     
                     <div class="activity-actions">
-                        <button>Book Now</button>
+                        <button onclick="window.location.href='{% url 'travel_app:profile' %}?type=activity&id={{ activity.id }}'">Book Now</button>
                         <button>View Details</button>
                     </div>
                 </div>

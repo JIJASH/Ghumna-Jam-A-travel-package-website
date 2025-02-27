@@ -17,6 +17,10 @@
             <p class="activity-detail-equipment"><strong>Equipment Provided:</strong> {{ activity.equipment_provided|join:", " }}</p>
             <p class="activity-detail-safety"><strong>Safety Guidelines:</strong> {{ activity.safety_guidelines }}</p>
         </div>
+        
+    </div>
+    <div class="activity-actions">
+        <button onclick="window.location.href='{% url 'travel_app:profile' %}?type=activity&id={{ activity.id }}'">Book Now</button>
     </div>
 </div>
 {% endblock content %}

@@ -26,6 +26,11 @@ urlpatterns = [
     path("activity/<int:activity_id>/", activity_detail, name="activity_detail"),
     path('packages/', packages, name='packages'),
     path("packages/<int:package_id>/", package_datail, name="package_datail"),
+    path("booking/<str:type>/<int:id>/", booking, name="booking"),
+    path("booking_confirmation/<int:booking_id>/", booking_confirmation, name="booking_confirmation"),
+    path("payment/<int:booking_id>/", payment, name="payment"),
+    path("payment-success/", payment_success, name="payment_success"),
+    path("payment-failure/", payment_failure, name="payment_failure"),
  
 
 ]

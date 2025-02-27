@@ -321,10 +321,9 @@ body {
 
 /* Profile page styles */
 .profile-container {
-  width: 600px;
+  width: 100%;
   position: absolute;
-  height: 80vh;
-  top: 100px;
+  margin-top: 50%;
   padding: 20px 20px 20px;
   font-family: "Mulish", sans-serif;
   background-color: #fff;
@@ -2034,3 +2033,256 @@ body {
         color: #666;
         line-height: 1.5;
     }
+
+
+
+
+
+      /* Booking Page */
+    .booking-container {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 20px;
+      font-family: 'TT Norms Pro', 'Mulish', sans-serif;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .booking-heading {
+      font-size: 36px;
+      font-weight: bold;
+      color: #333;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .booking-content {
+      display: flex;
+      gap: 30px;
+    }
+
+    /* Booking Summary */
+    .booking-summary {
+      flex: 1;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .booking-summary h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .booking-item {
+      font-size: 16px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .booking-item p {
+      margin-bottom: 10px;
+    }
+
+    /* Booking Form */
+    .booking-form {
+      flex: 1;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .booking-form .form-group {
+      margin-bottom: 20px;
+    }
+
+    .booking-form label {
+      display: block;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .booking-form input[type="date"],
+    .booking-form input[type="number"],
+    .booking-form input[type="text"],
+    .booking-form textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-family: 'Mulish', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .booking-form input[type="date"]:focus,
+    .booking-form input[type="number"]:focus,
+    .booking-form input[type="text"]:focus,
+    .booking-form textarea:focus {
+      border-color: #007bff;
+    }
+
+    .booking-form textarea {
+      resize: vertical;
+    }
+
+    .next-button {
+      background-color: #000000;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 24px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    .next-button:hover {
+      background-color: #333;
+    }
+
+
+
+
+      /* Payment Page */
+  .payment-container {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 20px;
+    font-family: 'TT Norms Pro', 'Mulish', sans-serif;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .payment-heading {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .payment-content {
+    display: flex;
+    gap: 30px;
+  }
+
+  .booking-summary {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .booking-summary h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .booking-item {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  .booking-item p {
+    margin-bottom: 10px;
+  }
+
+  .payment-form {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .payment-form h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .pay-button {
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+
+  .pay-button:hover {
+    background-color: #333;
+  }
+
+  /* Confirmation Page */
+  .confirmation-container {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 20px;
+    font-family: 'TT Norms Pro', 'Mulish', sans-serif;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .confirmation-heading {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .confirmation-content {
+    display: flex;
+    gap: 30px;
+  }
+
+  .confirmation-details {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .confirmation-details h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .confirmation-message {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .confirmation-message p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+  }

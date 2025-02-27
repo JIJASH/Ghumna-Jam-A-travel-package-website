@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from .forms import CustomerForm
 from .models import *
 from django.shortcuts import render, get_object_or_404
+from .forms import BookingForm
 
 
 
@@ -43,17 +44,17 @@ def logout():
 
 @login_required
 def profile(request):
- 
     customer, created = Customer.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
-        
         form = CustomerForm(request.POST, request.FILES, instance=customer)
         if form.is_valid():
-            form.save()  
-            return redirect('travel_app:profile')  
+            form.save()
+            if 'type' in request.GET and 'id' in request.GET:
+                return redirect('travel_app:booking', type=request.GET.get('type'), id=request.GET.get('id'))
+            else:
+                return redirect('travel_app:profile')
     else:
-        # Populate the form with the existing customer data
         form = CustomerForm(instance=customer)
 
     return render(request, 'profile.html', {'form': form})
@@ -115,3 +116,73 @@ def packages(request):
 def package_datail(request, package_id):
     package = get_object_or_404(TravelPackage, id=package_id)
     return render(request, "package_detail.html", {"package": package})
+
+
+@login_required
+def booking(request, type, id):
+    customer = request.user.customer
+    booking_item = None
+
+    if type == "package":
+        booking_item = get_object_or_404(TravelPackage, id=id)
+    elif type == "hotel":
+        booking_item = get_object_or_404(Hotel, id=id)
+    elif type == "activity":
+        booking_item = get_object_or_404(Activity, id=id)
+
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.customer = customer
+
+            if type == "package":
+                booking.travel_package = booking_item
+                booking.total_amount = booking_item.price * int(request.POST.get('number_of_travelers', 1))
+            elif type == "hotel":
+                booking.hotel = booking_item
+                num_nights = 1  
+                booking.total_amount = booking_item.price_per_night * num_nights
+            elif type == "activity":
+                booking.activity = booking_item
+                booking.total_amount = booking_item.price * int(request.POST.get('number_of_travelers', 1))
+
+            booking.save()
+            return redirect('travel_app:payment', booking_id=booking.id)
+        else:
+            print("Form errors:", form.errors)
+    else:
+        form = BookingForm()
+
+    return render(request, 'booking.html', {'form': form, 'booking_item': booking_item, 'type': type})
+
+
+
+@login_required
+def payment(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    if request.method == 'POST':
+        # Handle payment logic here (e.g., integrate with a payment gateway)
+        booking.payment_status = "Paid"
+        booking.save()
+        return redirect('travel_app:booking_confirmation', booking_id=booking.id)
+
+    return render(request, 'payment.html', {'booking': booking})
+
+
+
+@login_required
+def booking_confirmation(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    return render(request, 'booking_confirmation.html', {'booking': booking})
+
+
+
+
+def payment_success(request):
+
+    return render(request, 'booking_confirmation.html')
+
+def payment_failure(request):
+    return render(request, 'payment_failure.html')

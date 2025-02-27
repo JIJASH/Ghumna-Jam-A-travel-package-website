@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="confirmation-container">
+    <h1 class="confirmation-heading">Booking Confirmed!</h1>
+    <div class="confirmation-content">
+        <div class="confirmation-details">
+            <h2>Booking Details</h2>
+            <div class="booking-item">
+                {% if booking.travel_package %}
+                    <p><strong>Package:</strong> {{ booking.travel_package.name }}</p>
+                    <p><strong>Price:</strong> Rs. {{ booking.travel_package.price }}</p>
+                {% elif booking.hotel %}
+                    <p><strong>Hotel:</strong> {{ booking.hotel.name }}</p>
+                    <p><strong>Price per Night:</strong> Rs. {{ booking.hotel.price_per_night }}</p>
+                {% elif booking.activity %}
+                    <p><strong>Activity:</strong> {{ booking.activity.name }}</p>
+                    <p><strong>Price:</strong> Rs. {{ booking.activity.price }}</p>
+                {% endif %}
+                <p><strong>Travel Date:</strong> {{ booking.travel_date }}</p>
+                <p><strong>Number of Travelers:</strong> {{ booking.number_of_travelers }}</p>
+                <p><strong>Total Amount:</strong> Rs. {{ booking.total_amount }}</p>
+            </div>
+        </div>
+        <div class="confirmation-message">
+            <p>Thank you for booking with us! Your payment was successful.</p>
+            <p>You will receive a confirmation email shortly.</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

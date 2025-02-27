@@ -71,7 +71,7 @@
           </p>
 
           <div class="package-actions">
-            <button>Book Now</button>
+            <button onclick="window.location.href='{% url 'travel_app:profile' %}?type=package&id={{ package.id }}'">Book Now</button>
             <button>View Details</button>
           </div>
         </div>

@@ -21,6 +21,10 @@
             <p class="hotel-detail-rooms"><strong>Total Rooms:</strong> {{ hotel.total_rooms }}</p>
             <p class="hotel-detail-available-rooms"><strong>Available Rooms:</strong> {{ hotel.available_rooms }}</p>
         </div>
+       
+    </div>
+    <div class="hotel-actions">
+        <button onclick="window.location.href='{% url 'travel_app:profile' %}?type=hotel&id={{ hotel.id }}'">Book Now</button>
     </div>
 </div>
 {% endblock content %}

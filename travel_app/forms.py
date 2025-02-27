@@ -45,3 +45,11 @@ class CustomerForm(forms.ModelForm):
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
         }
+
+
+
+
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ["travel_date", "number_of_travelers", "special_requests", "emergency_contact"]

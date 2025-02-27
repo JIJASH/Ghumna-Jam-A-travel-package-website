@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="payment-container">
+    <h1 class="payment-heading">Payment Details</h1>
+    <div class="payment-content">
+        <div class="booking-summary">
+            <h2>Booking Summary</h2>
+            <div class="booking-item">
+                {% if booking.travel_package %}
+                    <p><strong>Package:</strong> {{ booking.travel_package.name }}</p>
+                    <p><strong>Price:</strong> Rs. {{ booking.travel_package.price }}</p>
+                {% elif booking.hotel %}
+                    <p><strong>Hotel:</strong> {{ booking.hotel.name }}</p>
+                    <p><strong>Price per Night:</strong> Rs. {{ booking.hotel.price_per_night }}</p>
+                {% elif booking.activity %}
+                    <p><strong>Activity:</strong> {{ booking.activity.name }}</p>
+                    <p><strong>Price:</strong> Rs. {{ booking.activity.price }}</p>
+                {% endif %}
+                <p><strong>Travel Date:</strong> {{ booking.travel_date }}</p>
+                <p><strong>Number of Travelers:</strong> {{ booking.number_of_travelers }}</p>
+                <p><strong>Total Amount:</strong> Rs. {{ booking.total_amount }}</p>
+            </div>
+        </div>
+
+        <div class="payment-form">
+            <h2>Pay with eSewa</h2>
+            <form action="https://uat.esewa.com.np/epay/main" method="POST">
+                <input type="hidden" name="amt" value="{{ booking.total_amount }}">
+                <input type="hidden" name="pdc" value="0">
+                <input type="hidden" name="psc" value="0">
+                <input type="hidden" name="txAmt" value="0">
+                <input type="hidden" name="tAmt" value="{{ booking.total_amount }}">
+                <input type="hidden" name="pid" value="{{ booking.id }}">
+                <input type="hidden" name="scd" value="EPAYTEST">
+                <input type="hidden" name="su" value="http://127.0.0.1:8000/payment-success/">
+                <input type="hidden" name="fu" value="http://127.0.0.1:8000/payment-failure/">
+                <button type="submit" class="pay-button">Pay Now with eSewa</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

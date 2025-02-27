@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="booking-container">
+    <h1 class="booking-heading">Booking Details</h1>
+    <div class="booking-content">
+        <div class="booking-summary">
+            <h2>You are booking:</h2>
+            <div class="booking-item">
+                {% if type == "package" %}
+                    <p><strong>Package:</strong> {{ booking_item.name }}</p>
+                    <p><strong>Price:</strong> Rs. {{ booking_item.price }}</p>
+                {% elif type == "hotel" %}
+                    <p><strong>Hotel:</strong> {{ booking_item.name }}</p>
+                    <p><strong>Price per Night:</strong> Rs. {{ booking_item.price_per_night }}</p>
+                {% elif type == "activity" %}
+                    <p><strong>Activity:</strong> {{ booking_item.name }}</p>
+                    <p><strong>Price:</strong> Rs. {{ booking_item.price }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="booking-form">
+            <form method="POST">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="form-errors">
+                        <p>Please correct the following errors:</p>
+                        <ul>
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <li>{{ field }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="id_travel_date">Travel Date:</label>
+                    <input type="date" id="id_travel_date" name="travel_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="id_number_of_travelers">Number of Travelers:</label>
+                    <input type="number" id="id_number_of_travelers" name="number_of_travelers" min="1" value="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="id_special_requests">Special Requests:</label>
+                    <textarea id="id_special_requests" name="special_requests" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="id_emergency_contact">Emergency Contact:</label>
+                    <input type="text" id="id_emergency_contact" name="emergency_contact" placeholder="Name, Relation, Phone">
+                </div>
+                <button type="submit" class="next-button">Next</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

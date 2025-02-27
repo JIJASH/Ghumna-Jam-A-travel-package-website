@@ -70,9 +70,10 @@
         <strong>Price:</strong> Rs. {{ package.price }}
       </p>
     </div>
-    <div class="package-detail-book">
-      <button>Book Now</button>
-    </div>
+  
+  </div>
+  <div class="package-actions">
+    <button onclick="window.location.href='{% url 'travel_app:profile' %}?type=package&id={{ package.id }}'">Book Now</button>
   </div>
   
 </div>

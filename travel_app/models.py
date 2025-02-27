@@ -87,7 +87,7 @@ class Customer(models.Model):
         choices=GENDER_CHOICES,
         blank=True, null=True
     )
-    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="customer")
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="customer")
     loyalty_points = models.PositiveIntegerField(default=0)
     preferred_payment_method = models.CharField(max_length=20, blank=True, null=True)
 
@@ -233,38 +233,34 @@ class SeasonalPrice(models.Model):
 
 
 class Booking(models.Model):
-    
-    STATUS_CHOICES=[
-        ("Pending","Pending"),
-        ("Confirmed","Confirmed"),
-        ("Cancelled","Cancelled"),
-        ("Completed", "Completed")
+    STATUS_CHOICES = [
+        ("Pending", "Pending"),
+        ("Confirmed", "Confirmed"),
+        ("Cancelled", "Cancelled"),
+        ("Completed", "Completed"),
     ]
-    PAYMENT_STATUS_CHOICES=[
-        ("Unpaid","Unpaid"),
+    PAYMENT_STATUS_CHOICES = [
+        ("Unpaid", "Unpaid"),
         ("Partially Paid", "Partially Paid"),
-        ("Paid","Paid"),
+        ("Paid", "Paid"),
     ]
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="bookings")   
-    travel_package=models.ForeignKey(TravelPackage, on_delete= models.CASCADE , related_name="bookings")
-    booking_date=models.DateTimeField(auto_now_add=True)
-    status=models.CharField(max_length=20,choices=STATUS_CHOICES,default="Pending")
-    payment_status=models.CharField(max_length=20,choices=PAYMENT_STATUS_CHOICES,default="Unpaid")
-    travel_date=models.DateField()
-    number_of_travelers=models.PositiveIntegerField(default=1)
+
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="bookings")
+    travel_package = models.ForeignKey(TravelPackage, on_delete=models.CASCADE, related_name="bookings", blank=True, null=True)
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name="bookings", blank=True, null=True)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name="bookings", blank=True, null=True)
+    booking_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Pending")
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default="Unpaid")
+    travel_date = models.DateField()
+    number_of_travelers = models.PositiveIntegerField(default=1)
     special_requests = models.TextField(blank=True, null=True)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)    
     cancellation_reason = models.TextField(blank=True, null=True)
-    emergency_contact = models.JSONField(default=dict,blank=True,null=True)  # {"name": "", "relation": "", "phone": ""}
-    
-    def save(self, *args, **kwargs):
-        if not self.pk:  # On booking creation
-            seasonal_price = self.travel_package.get_seasonal_price(self.travel_date)
-            self.total_amount = seasonal_price * self.number_of_travelers
-        super().save(*args, **kwargs)
-    
+    emergency_contact = models.JSONField(default=dict, blank=True, null=True)
+
     def __str__(self):
-        return f"Booking by {self.customer.user.username}"
+        return f"Booking by {self.customer.user.username} for {self.travel_package or self.hotel or self.activity}"
 
 
 
