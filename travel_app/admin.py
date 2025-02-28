@@ -205,3 +205,22 @@ class WishListAdmin(admin.ModelAdmin):
             'fields': ('user', 'travel_package', 'notes')
         }),
     )
+
+@admin.register(Destination)
+class DestinationAdmin(admin.ModelAdmin):
+    list_display = ('name',  'best_time_to_visit', 'climate')
+    search_fields = ('name', 'best_time_to_visit')
+    list_filter = ('best_time_to_visit', 'climate')
+    list_per_page = 20
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('name', 'description',  'image')
+        }),
+        ('Additional Details', {
+            'fields': ('best_time_to_visit', 'climate', 'popular_attractions')
+        }),
+        ('Related Content', {
+            'fields': ('hotels', 'activities', 'travel_packages')
+        }),
+    )
+    filter_horizontal = ('hotels', 'activities', 'travel_packages')

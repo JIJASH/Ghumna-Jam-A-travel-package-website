@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="destination-detail-container">
-    <h1>Discover Amazing Destinations</h1>
-    <div class="destination-grid">
+<div class="discover-container">
+    <div class="discover-header">
+        <h1>Travelers' Choice Destinations</h1>
+        <p class="discover-subtitle">Discover the best destinations around Nepal based on traveler reviews and ratings</p>
+    </div>
+    
+   
+    
+    <dwiv class="destination-grid">
         {% for destination in destinations %}
         <div class="destination-card" onclick="window.location.href='{% url 'travel_app:destination_detail' destination.id %}'">
             <div class="destination-image-container">
@@ -11,14 +17,22 @@
                 {% else %}
                 <div class="destination-image-placeholder">No Image Available</div>
                 {% endif %}
+                <div class="destination-overlay">
+                    <span class="destination-rank">#{{ forloop.counter }}</span>
+                </div>
             </div>
             <div class="destination-info">
                 <h2 class="destination-name">{{ destination.name }}</h2>
                 <p class="destination-location">{{ destination.location }}</p>
-                <p class="destination-description">{{ destination.description|truncatewords:20 }}</p>
+                <p class="destination-season">Best time to visit: {{ destination.best_time_to_visit|default:"All year" }}</p>
+                <p class="destination-description">{{ destination.description|truncatewords:15 }}</p>
+                <div class="destination-meta">
+                    <span class="destination-hotels">{{ destination.hotels.count }} Hotels</span>
+                    <span class="destination-activities">{{ destination.activities.count }} Activities</span>
+                </div>
             </div>
         </div>
         {% endfor %}
-    </div>
+    </dwiv>
 </div>
 {% endblock content %}
