@@ -2568,24 +2568,24 @@ body {
   color: #555;
 }
 
-.hotel-grid, .activity-grid, .package-grid {
+.activity-grid, .hotel-grid, .package-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 3-column layout */
+  gap: 20px;
+  justify-content: center;
 }
 
-.hotel-card, .activity-card, .package-card {
+.activity-card, .hotel-card, .package-card {
+  background: white;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
-  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
 }
 
-.hotel-card:hover, .activity-card:hover, .package-card:hover {
+.activity-card:hover, .hotel-card:hover, .package-card:hover {
   transform: translateY(-5px);
 }
-
 .hotel-image-container, .activity-image-container, .package-image-container {
   height: 180px;
 }
@@ -2625,14 +2625,14 @@ body {
 }
 
 .view-details-btn {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background: #4a89dc;
+  background-color: #007bff;
   color: white;
-  border: none;
-  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
   cursor: pointer;
-  transition: background 0.3s;
+  border: none;
+  width: 100%;
+  display: block;
 }
 
 .view-details-btn:hover {

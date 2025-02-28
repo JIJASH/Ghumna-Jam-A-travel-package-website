@@ -97,7 +97,8 @@
                     </div>
                     <p class="hotel-location">{{ hotel.location }}</p>
                     <p class="hotel-price">Rs. {{ hotel.price_per_night }} / night</p>
-                    <button class="view-details-btn">View Details</button>
+                    <button class="view-details-btn" onclick="window.location.href='{% url 'travel_app:hotel_detail' hotel.id %}'">View Details</button>
+
                 </div>
             </div>
             {% endfor %}
@@ -127,7 +128,8 @@
                     <p class="activity-duration">Duration: {{ activity.duration }}</p>
                     <p class="activity-difficulty">Difficulty: {{ activity.difficulty_level }}</p>
                     <p class="activity-price">Rs. {{ activity.price }} per person</p>
-                    <button class="view-details-btn">View Details</button>
+                    <button class="view-details-btn" onclick="window.location.href='{% url 'travel_app:activity_detail' activity.id %}'">View Details</button>
+
                 </div>
             </div>
             {% endfor %}
@@ -157,7 +159,9 @@
                     <p class="package-duration">{{ package.duration }} days</p>
                     <p class="package-difficulty">{{ package.difficulty_level }}</p>
                     <p class="package-price">Rs. {{ package.price }}</p>
-                    <button class="view-details-btn">View Details</button>
+                    <button class="view-details-btn" onclick="window.location.href='package_datail.html?id={{ package.id }}'">
+                      View Details
+                  </button>
                 </div>
             </div>
             {% endfor %}
