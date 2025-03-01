@@ -24,6 +24,7 @@
 
         <div class="payment-form">
             <h2>Pay with eSewa</h2>
+            <!-- eSewa Payment Form -->
             <form action="https://uat.esewa.com.np/epay/main" method="POST">
                 <input type="hidden" name="amt" value="{{ booking.total_amount }}">
                 <input type="hidden" name="pdc" value="0">

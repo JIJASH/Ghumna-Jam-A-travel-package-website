@@ -115,21 +115,24 @@
         {% if destination.activities.all %}
         <div class="activity-grid">
             {% for activity in destination.activities.all %}
-            <div class="activity-card">
-                <div class="activity-image-container">
-                    {% if activity.image %}
-                    <img src="{{ activity.image.url }}" alt="{{ activity.name }}" class="activity-image">
-                    {% else %}
-                    <div class="activity-image-placeholder">No Image</div>
-                    {% endif %}
-                </div>
-                <div class="activity-info">
-                    <h3 class="activity-name">{{ activity.name }}</h3>
-                    <p class="activity-duration">Duration: {{ activity.duration }}</p>
-                    <p class="activity-difficulty">Difficulty: {{ activity.difficulty_level }}</p>
-                    <p class="activity-price">Rs. {{ activity.price }} per person</p>
-                    <button class="view-details-btn" onclick="window.location.href='{% url 'travel_app:activity_detail' activity.id %}'">View Details</button>
+            <div class="activity-card" onclick="window.location.href='{% url 'travel_app:activity_detail' activity.id %}'">
 
+                <div class="activity-card">
+                    <div class="activity-image-container">
+                        {% if activity.image %}
+                        <img src="{{ activity.image.url }}" alt="{{ activity.name }}" class="activity-image">
+                        {% else %}
+                        <div class="activity-image-placeholder">No Image</div>
+                        {% endif %}
+                    </div>
+                    <div class="activity-info">
+                        <h3 class="activity-name">{{ activity.name }}</h3>
+                        <p class="activity-duration">Duration: {{ activity.duration }}</p>
+                        <p class="activity-difficulty">Difficulty: {{ activity.difficulty_level }}</p>
+                        <p class="activity-price">Rs. {{ activity.price }} per person</p>
+                        <button class="view-details-btn" onclick="window.location.href='{% url 'travel_app:activity_detail' activity.id %}'">View Details</button>
+
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -146,22 +149,25 @@
         {% if destination.travel_packages.all %}
         <div class="package-grid">
             {% for package in destination.travel_packages.all %}
-            <div class="package-card">
-                <div class="package-image-container">
-                    {% if package.image %}
-                    <img src="{{ package.image.url }}" alt="{{ package.name }}" class="package-image">
-                    {% else %}
-                    <div class="package-image-placeholder">No Image</div>
-                    {% endif %}
-                </div>
-                <div class="package-info">
-                    <h3 class="package-name">{{ package.name }}</h3>
-                    <p class="package-duration">{{ package.duration }} days</p>
-                    <p class="package-difficulty">{{ package.difficulty_level }}</p>
-                    <p class="package-price">Rs. {{ package.price }}</p>
-                    <button class="view-details-btn" onclick="window.location.href='package_datail.html?id={{ package.id }}'">
-                      View Details
-                  </button>
+            <div class="package-card" onclick="window.location.href='{% url 'travel_app:package_datail' package.id %}'">
+
+                <div class="package-card">
+                    <div class="package-image-container">
+                        {% if package.image %}
+                        <img src="{{ package.image.url }}" alt="{{ package.name }}" class="package-image">
+                        {% else %}
+                        <div class="package-image-placeholder">No Image</div>
+                        {% endif %}
+                    </div>
+                    <div class="package-info">
+                        <h3 class="package-name">{{ package.name }}</h3>
+                        <p class="package-duration">{{ package.duration }} days</p>
+                        <p class="package-difficulty">{{ package.difficulty_level }}</p>
+                        <p class="package-price">Rs. {{ package.price }}</p>
+                        <button class="view-details-btn" onclick="window.location.href='package_datail.html?id={{ packages.id }}'">
+                        View Details
+                    </button>
+                    </div>
                 </div>
             </div>
             {% endfor %}

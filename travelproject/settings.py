@@ -33,6 +33,7 @@ DEBUG= True if os.getenv('DEBUG ','True')=='True' else False
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -177,3 +178,21 @@ LOGOUT_REDIRECT_URL = "travel_app:home"
 
 
 AUTH_USER_MODEL = 'travel_app.CustomUser'
+
+
+
+
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://localhost:8000',
+#     'https://localhost:8000',
+# ]
+
+# ngrok_host = os.environ.get('NGROK_HOST')
+# if ngrok_host:
+#     CSRF_TRUSTED_ORIGINS.append(f'https://{ngrok_host}')
+
+
+
+# CSRF_COOKIE_SECURE = False
+
+
