@@ -6,6 +6,10 @@ from .forms import CustomerForm
 from .models import *
 from django.shortcuts import render, get_object_or_404
 from .forms import BookingForm
+import requests
+import json
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 
 
@@ -186,3 +190,57 @@ def payment_success(request):
 
 def payment_failure(request):
     return render(request, 'payment_failure.html')
+
+
+
+
+
+# def initiate_payment(request, booking_id):
+#     # Assuming you have a Booking model to fetch booking details
+#     # Replace this with your actual Booking model
+#     booking = Booking.objects.get(id=booking_id)  # Adjust based on your model
+
+#     # Prepare the payload
+#     payload = {
+#         "return_url": "http://127.0.0.1:8000/payment-success/",
+#         "website_url": "http://127.0.0.1:8000/",
+#         "amount": str(int(booking.total_amount * 100)),  # Convert to paisa
+#         "purchase_order_id": f"Order-{booking.id}",
+#         "purchase_order_name": booking.travel_package.name if booking.travel_package else (booking.hotel.name if booking.hotel else booking.activity.name),
+#         "customer_info": {
+#             "name": "Test User",  # Replace with actual user data if available
+#             "email": "test@khalti.com",
+#             "phone": "9800000001"
+#         }
+#     }
+
+#     # Khalti API endpoint (same for sandbox and live, determined by the key)
+#     url = "https://khalti.com/api/v2/epayment/initiate/"
+
+#     # Headers with your secret key
+#     headers = {
+#         "Authorization": "key live_secret_key_2b36142266e2a4cbcb4c0ea6f980913f",  # Replace with test secret key if available
+#         "Content-Type": "application/json",
+#     }
+
+#     try:
+#         # Make the POST request to Khalti
+#         response = requests.post(url, headers=headers, data=json.dumps(payload))
+#         response_data = response.json()
+
+#         if response.status_code == 200 and "payment_url" in response_data:
+#             # Redirect the user to Khalti's payment URL
+#             return redirect(response_data["payment_url"])
+#         else:
+#             # Handle error
+#             return HttpResponse(f"Payment initiation failed: {response.text}", status=400)
+
+#     except Exception as e:
+#         return HttpResponse(f"Error initiating payment: {str(e)}", status=500)
+
+# def payment_success(request):
+#     # Handle payment success (you can verify the payment here if needed)
+#     return render(request, "payment_success.html", {"message": "Payment successful! Your booking has been confirmed."})
+
+# def payment_failure(request):
+#     return render(request, "payment_failure.html", {"message": "Payment failed. Please try again."})
