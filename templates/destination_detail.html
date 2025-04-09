@@ -149,7 +149,7 @@
         {% if destination.travel_packages.all %}
         <div class="package-grid">
             {% for package in destination.travel_packages.all %}
-            <div class="package-card" onclick="window.location.href='{% url 'travel_app:package_datail' package.id %}'">
+            <div class="package-card" onclick="window.location.href='{% url 'travel_app:package_detail' package.id %}'">
 
                 <div class="package-card">
                     <div class="package-image-container">
@@ -164,7 +164,7 @@
                         <p class="package-duration">{{ package.duration }} days</p>
                         <p class="package-difficulty">{{ package.difficulty_level }}</p>
                         <p class="package-price">Rs. {{ package.price }}</p>
-                        <button class="view-details-btn" onclick="window.location.href='package_datail.html?id={{ packages.id }}'">
+                        <button class="view-details-btn" onclick="window.location.href='package_detail.html?id={{ packages.id }}'">
                         View Details
                     </button>
                     </div>

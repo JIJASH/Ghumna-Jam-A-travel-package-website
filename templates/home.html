@@ -2,28 +2,136 @@
 {% block content %}
 
 <div class="home-container">
-    <!-- Header -->
     <h1 class="main-heading">Kata Janey ?</h1>
     
-    <!-- Navigation Buttons -->
     <div class="button-container">
-        <a href="{% url 'travel_app:search_all' %}" class="nav-button">Search All</a>
         <a href="{% url 'travel_app:hotels' %}" class="nav-button">Hotels</a>
         <a href="{% url 'travel_app:activity' %}" class="nav-button">Activity</a>
         <a href="{% url 'travel_app:packages' %}" class="nav-button">Packages</a>
     </div>
 
-    <!-- Search Bar -->
     <div class="search-container">
-        <input type="text" placeholder="Places to go, things to do..." class="search-input">
-        <button class="search-button">Search</button>
+        <div style="position: relative; width: 70%; max-width: 600px;">
+            <input type="text" id="search-input" placeholder="Places to go, things to do..." class="search-input" onkeyup="showSuggestions(this.value)">
+            <div id="suggestions" class="suggestions-dropdown" style="display: none;"></div>
+        </div>
+        <a href="#" id="search-button" class="search-button" onclick="search()">Search</a>
     </div>
 
-    <!-- Call to Action Section -->
     <div class="cta-container">
         <h2 class="cta-heading">Plan a trip that's so you</h2>
         <p class="cta-text">Discover the best places to stay, things to do, and more.</p>
     </div>
 </div>
+
+<script>
+// Data for autocomplete suggestions
+const searchData = {
+    destinations: [
+        {% for destination in destinations %}
+        { id: "{{ destination.id }}", name: "{{ destination.name }}", location: "{{ destination.location }}", type: "destination" },
+        {% endfor %}
+    ],
+    hotels: [
+        {% for hotel in hotels %}
+        { id: "{{ hotel.id }}", name: "{{ hotel.name }}", location: "{{ hotel.location }}", type: "hotel" },
+        {% endfor %}
+    ],
+    activities: [
+        {% for activity in activities %}
+        { id: "{{ activity.id }}", name: "{{ activity.name }}", location: "{{ activity.location }}", type: "activity" },
+        {% endfor %}
+    ],
+    packages: [
+        {% for package in packages %}
+        { id: "{{ package.id }}", name: "{{ package.name }}", location: "{{ package.location }}", type: "package" },
+        {% endfor %}
+    ]
+};
+
+// Combine all data into a single array for easier filtering
+const allSuggestions = [
+    ...searchData.destinations,
+    ...searchData.hotels,
+    ...searchData.activities,
+    ...searchData.packages
+];
+
+// Function to show autocomplete suggestions
+function showSuggestions(query) {
+    const suggestionsDiv = document.getElementById('suggestions');
+    suggestionsDiv.innerHTML = '';
+    suggestionsDiv.style.display = 'none';
+
+    if (query.length === 0) return;
+
+    const filteredSuggestions = allSuggestions.filter(item => 
+        item.name.toLowerCase().includes(query.toLowerCase()) || 
+        item.location.toLowerCase().includes(query.toLowerCase())
+    );
+
+    if (filteredSuggestions.length > 0) {
+        suggestionsDiv.style.display = 'block';
+        filteredSuggestions.forEach(item => {
+            const suggestionItem = document.createElement('div');
+            suggestionItem.className = 'suggestion-item';
+            suggestionItem.innerHTML = `<strong>${item.name}</strong> (${item.location}) - ${item.type.charAt(0).toUpperCase() + item.type.slice(1)}`;
+            suggestionItem.onclick = () => navigateToItem(item);
+            suggestionsDiv.appendChild(suggestionItem);
+        });
+    }
+}
+
+// Function to navigate to the corresponding page based on the selected item
+function navigateToItem(item) {
+    let url;
+    switch (item.type) {
+        case 'destination':
+            url = `/destination/${item.id}/`;
+            break;
+        case 'hotel':
+            url = `/hotel/${item.id}/`;
+            break;
+        case 'activity':
+            url = `/activity/${item.id}/`;
+            break;
+        case 'package':
+            url = `/packages/${item.id}/`;
+            break;
+        default:
+            return;
+    }
+    window.location.href = url;
+}
+
+// Function to handle search button click
+function search() {
+    const query = document.getElementById('search-input').value.trim().toLowerCase();
+    if (query.length === 0) return;
+
+    // Find the first matching item
+    const match = allSuggestions.find(item => 
+        item.name.toLowerCase() === query || 
+        item.location.toLowerCase() === query
+    );
+
+    if (match) {
+        navigateToItem(match);
+    } else {
+        // If no exact match, redirect to a general search page or show an alert
+        alert('No matching results found. Please try a different search term.');
+    }
+}
+
+// Hide suggestions when clicking outside
+document.addEventListener('click', function(event) {
+    const suggestionsDiv = document.getElementById('suggestions');
+    const searchInput = document.getElementById('search-input');
+    if (!suggestionsDiv.contains(event.target) && event.target !== searchInput) {
+        suggestionsDiv.style.display = 'none';
+    }
+});
+</script>
+
 
 {% endblock content %}

@@ -26,7 +26,7 @@
             <h2>Pay with Khalti</h2>
             <!-- Khalti Payment Form -->
             <form id="khalti-payment-form">
-                <input type="hidden" id="public_key" name="public_key" value="test_public_key_1a2b3c4d5e6f7g8h9i0j">
+                <input type="hidden" id="public_key" name="public_key" value="live_secret_key_9209bb1b39f4467892ea894df80e8c1c">
                 <input type="hidden" id="amount" name="amount" value="{{ booking.total_amount }}">
                 <input type="hidden" id="product_identity" name="product_identity" value="{{ booking.id }}">
                 <input type="hidden" id="product_name" name="product_name" value="{% if booking.travel_package %}{{ booking.travel_package.name }}{% elif booking.hotel %}{{ booking.hotel.name }}{% elif booking.activity %}{{ booking.activity.name }}{% endif %}">
@@ -44,7 +44,7 @@
 <script>
     // Initialize Khalti Checkout
     var config = {
-        "publicKey": "test_public_key_1a2b3c4d5e6f7g8h9i0j",
+        "publicKey": "live_secret_key_9209bb1b39f4467892ea894df80e8c1c",
         "productIdentity": "{{ booking.id }}",
         "productName": "{% if booking.travel_package %}{{ booking.travel_package.name }}{% elif booking.hotel %}{{ booking.hotel.name }}{% elif booking.activity %}{{ booking.activity.name }}{% endif %}",
         "productUrl": "http://127.0.0.1:8000/booking/{{ booking.id }}",

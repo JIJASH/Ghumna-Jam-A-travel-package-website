@@ -7,7 +7,7 @@
       {% for package in packages %}
       <div
         class="package-card"
-        onclick="window.location.href='{% url 'travel_app:package_datail' package.id %}'"
+        onclick="window.location.href='{% url 'travel_app:package_detail' package.id %}'"
         style="cursor: pointer"
       >
         <div class="package-image-container">
@@ -52,20 +52,7 @@
                         {% endwith %}
                         <span>{{ activity.rating }}/5</span>
                     </div>
-          <!--
-        <div class="package-rating">
-            {% with full_stars=package.rating|floatformat:0 %}
-                {% for i in "12345" %}
-                    {% if forloop.counter <= full_stars %}
-                        <span class="star"><i class="fas fa-star"></i></span>
-                    {% else %}
-                        <span class="star"><i class="far fa-star"></i></span>
-                    {% endif %}
-                {% endfor %}
-            {% endwith %}
-            <span>{{ package.rating }}/5</span>
-        </div>
-  -->
+
           <p class="package-price">
             Starting from Rs. {{ package.price }} per person
           </p>
