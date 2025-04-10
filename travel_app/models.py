@@ -301,19 +301,36 @@ class Payment(models.Model):
 
 class Review(models.Model):
    
-    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE, related_name="reviews")
-    travel_package=models.ForeignKey(TravelPackage, on_delete= models.CASCADE , related_name="reviews")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="reviews")
+    # Make these fields optional to allow reviews for different types of items
+    travel_package = models.ForeignKey(TravelPackage, on_delete=models.CASCADE, related_name="reviews", blank=True, null=True)
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name="reviews", blank=True, null=True)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name="reviews", blank=True, null=True)
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-    comment=models.TextField(blank=True,null=True)
-    review_date=models.DateTimeField(auto_now_add=True)
-    reply=models.TextField(blank=True,null=True)
+    comment = models.TextField(blank=True, null=True)
+    review_date = models.DateTimeField(auto_now_add=True)
+    reply = models.TextField(blank=True, null=True)
     reply_date = models.DateTimeField(blank=True, null=True)
     images = models.ImageField(upload_to='review_images/', blank=True, null=True)
     likes = models.PositiveIntegerField(default=0)
     is_verified = models.BooleanField(default=False)
     
     def __str__(self):
-        return f"Review by {self.user.username} for {self.travel_package.name}"
+        if self.travel_package:
+            return f"Review by {self.user.username} for {self.travel_package.name}"
+        elif self.hotel:
+            return f"Review by {self.user.username} for {self.hotel.name}"
+        elif self.activity:
+            return f"Review by {self.user.username} for {self.activity.name}"
+        return f"Review by {self.user.username}"
+    
+    def clean(self):
+        # Ensure at least one of the review targets is set
+        if not self.travel_package and not self.hotel and not self.activity:
+            raise ValidationError("A review must be associated with a travel package, hotel, or activity.")
+        # Ensure only one of the review targets is set
+        if sum([bool(self.travel_package), bool(self.hotel), bool(self.activity)]) > 1:
+            raise ValidationError("A review can only be associated with one item (travel package, hotel, or activity).")
 
 
 

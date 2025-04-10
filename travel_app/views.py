@@ -5,11 +5,11 @@ from django.contrib.auth import authenticate, login
 from .forms import CustomerForm
 from .models import *
 from django.shortcuts import render, get_object_or_404
-from .forms import BookingForm
+from .forms import BookingForm, ReviewForm
 import requests
 import json
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 
 
@@ -92,7 +92,50 @@ def wishlist(request):
 
 
 def review(request):
-    return render(request, "review.html", {})
+    reviews = Review.objects.all()
+    return render(request, "review.html", {'reviews': reviews})
+
+
+@login_required
+def submit_review(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, request.FILES)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            
+            # Handle the review_type radio button selection
+            review_type = request.POST.get('review_type')
+            
+            # Clear all fields first
+            review.travel_package = None
+            review.hotel = None
+            review.activity = None
+            
+            # Set only the selected field
+            if review_type == 'travel_package':
+                review.travel_package_id = request.POST.get('travel_package')
+            elif review_type == 'hotel':
+                review.hotel_id = request.POST.get('hotel')
+            elif review_type == 'activity':
+                review.activity_id = request.POST.get('activity')
+            
+            review.save()
+            return redirect('travel_app:review')
+    else:
+        form = ReviewForm()
+    
+    # Get all available items for the dropdowns
+    travel_packages = TravelPackage.objects.all()
+    hotels = Hotel.objects.all()
+    activities = Activity.objects.all()
+    
+    return render(request, 'submit_review.html', {
+        'form': form,
+        'travel_packages': travel_packages,
+        'hotels': hotels,
+        'activities': activities
+    })
 
 
 
@@ -199,4 +242,40 @@ def payment_success(request):
 
 def payment_failure(request):
     return render(request, 'payment_failure.html')
+
+
+@login_required
+def like_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+    
+    # Get or create a set of liked reviews in the session
+    liked_reviews = request.session.get('liked_reviews', [])
+    
+    # Check if user has already liked this review
+    if str(review_id) in liked_reviews:
+        # Unlike the review
+        review.likes = max(0, review.likes - 1)  # Ensure likes don't go below 0
+        review.save()
+        liked_reviews.remove(str(review_id))
+        request.session['liked_reviews'] = liked_reviews
+        request.session.modified = True
+        
+        return JsonResponse({
+            'likes_count': review.likes,
+            'success': True,
+            'action': 'unliked'
+        })
+    else:
+        # Like the review
+        review.likes += 1
+        review.save()
+        liked_reviews.append(str(review_id))
+        request.session['liked_reviews'] = liked_reviews
+        request.session.modified = True
+        
+        return JsonResponse({
+            'likes_count': review.likes,
+            'success': True,
+            'action': 'liked'
+        })
 

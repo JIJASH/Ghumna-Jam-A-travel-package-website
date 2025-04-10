@@ -1,32 +1,37 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="payment-container">
-    <h1 class="payment-heading">Payment Details</h1>
-    <div class="payment-content">
-        <div class="booking-summary">
-            <h2>Booking Summary</h2>
-            <div class="booking-item">
-                {% if booking.travel_package %}
-                    <p><strong>Package:</strong> {{ booking.travel_package.name }}</p>
-                    <p><strong>Price:</strong> Rs. {{ booking.travel_package.price }}</p>
-                {% elif booking.hotel %}
-                    <p><strong>Hotel:</strong> {{ booking.hotel.name }}</p>
-                    <p><strong>Price per Night:</strong> Rs. {{ booking.hotel.price_per_night }}</p>
-                {% elif booking.activity %}
-                    <p><strong>Activity:</strong> {{ booking.activity.name }}</p>
-                    <p><strong>Price:</strong> Rs. {{ booking.activity.price }}</p>
-                {% endif %}
-                <p><strong>Travel Date:</strong> {{ booking.travel_date }}</p>
-                <p><strong>Number of Travelers:</strong> {{ booking.number_of_travelers }}</p>
-                <p><strong>Total Amount:</strong> Rs. {{ booking.total_amount }}</p>
-            </div>
-        </div>
+  <h1 class="payment-heading">Payment Details</h1>
+  <div class="payment-content">
+    <div class="booking-summary">
+      <h2>Booking Summary</h2>
+      <div class="booking-item">
+        {% if booking.travel_package %}
+        <p><strong>Package:</strong> {{ booking.travel_package.name }}</p>
+        <p><strong>Price:</strong> Rs. {{ booking.travel_package.price }}</p>
+        {% elif booking.hotel %}
+        <p><strong>Hotel:</strong> {{ booking.hotel.name }}</p>
+        <p>
+          <strong>Price per Night:</strong> Rs. {{ booking.hotel.price_per_night
+          }}
+        </p>
+        {% elif booking.activity %}
+        <p><strong>Activity:</strong> {{ booking.activity.name }}</p>
+        <p><strong>Price:</strong> Rs. {{ booking.activity.price }}</p>
+        {% endif %}
+        <p><strong>Travel Date:</strong> {{ booking.travel_date }}</p>
+        <p>
+          <strong>Number of Travelers:</strong> {{ booking.number_of_travelers
+          }}
+        </p>
+        <p><strong>Total Amount:</strong> Rs. {{ booking.total_amount }}</p>
+      </div>
+    </div>
 
         <div class="payment-form">
             <h2>Pay with Khalti</h2>
             <!-- Khalti Payment Form -->
             <form id="khalti-payment-form">
-                <input type="hidden" id="public_key" name="public_key" value="live_secret_key_9209bb1b39f4467892ea894df80e8c1c">
+                <input type="hidden" id="public_key" name="public_key" value="test_public_key_1a2b3c4d5e6f7g8h9i0j">
                 <input type="hidden" id="amount" name="amount" value="{{ booking.total_amount }}">
                 <input type="hidden" id="product_identity" name="product_identity" value="{{ booking.id }}">
                 <input type="hidden" id="product_name" name="product_name" value="{% if booking.travel_package %}{{ booking.travel_package.name }}{% elif booking.hotel %}{{ booking.hotel.name }}{% elif booking.activity %}{{ booking.activity.name }}{% endif %}">
@@ -44,7 +49,7 @@
 <script>
     // Initialize Khalti Checkout
     var config = {
-        "publicKey": "live_secret_key_9209bb1b39f4467892ea894df80e8c1c",
+        "publicKey": "test_public_key_1a2b3c4d5e6f7g8h9i0j",
         "productIdentity": "{{ booking.id }}",
         "productName": "{% if booking.travel_package %}{{ booking.travel_package.name }}{% elif booking.hotel %}{{ booking.hotel.name }}{% elif booking.activity %}{{ booking.activity.name }}{% endif %}",
         "productUrl": "http://127.0.0.1:8000/booking/{{ booking.id }}",
@@ -66,11 +71,11 @@
         }
     };
 
-    var checkout = new KhaltiCheckout(config);
+  var checkout = new KhaltiCheckout(config);
 
-    // Add event listener to the payment button
-    document.getElementById("khalti-payment-button").addEventListener("click", function() {
-        checkout.show({ amount: {{ booking.total_amount }} * 100 }); // Amount in paisa
-    });
+  // Add event listener to the payment button
+  document.getElementById("khalti-payment-button").addEventListener("click", function() {
+      checkout.show({ amount: {{ booking.total_amount }} * 100 }); // Amount in paisa
+  });
 </script>
 {% endblock content %}

@@ -1,5 +1,169 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load static %}
 {% block content %}
-<h1>Review</h1>
-<p>Share your experiences and read reviews from other travelers.</p>
+<div class="review-container">
+  <h1>What our customers think about us</h1>
+  
+  {% if user.is_authenticated %}
+  <div class="text-center mb-4">
+    <a href="{% url 'travel_app:submit_review' %}" class="btn btn-primary">Write a Review</a>
+  </div>
+  {% endif %}
+  
+  <div class="review-cards">
+    {% for review in reviews %}
+    <div class="customer-card">
+      <div class="customer-dp">
+        <div class="customer-pp">
+          {% if review.user.customer and review.user.customer.profile_picture %}
+            <img src="{{ review.user.customer.profile_picture.url }}" alt="{{ review.user.username }}'s profile" class="customer-pp-pic" />
+          {% else %}
+            <img src="{% static 'img/pp.png' %}" alt="Default profile" class="customer-pp-pic" />
+          {% endif %}
+        </div>
+        <div class="customer-name">
+          <p>{{ review.user.username }}</p>
+          <div class="customer-destination">
+            {% if review.travel_package %}
+              {{ review.travel_package }}
+            {% elif review.hotel %}
+              {{ review.hotel }}
+            {% elif review.activity %}
+              {{ review.activity }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="rating-date-container">
+        <div class="rating-review">
+          <div class="rating-upper-review" style="width: {% widthratio review.rating 5 100 %}%">
+            <span class="star-review"></span>
+            <span class="star-review"></span>
+            <span class="star-review"></span>
+            <span class="star-review"></span>
+            <span class="star-review"></span>
+          </div>
+          <div class="rating-lower-review">
+            <span class="star-review"></span>
+            <span class="star-review"></span>
+            <span class="star-review"></span>
+            <span class="star-review"></span>
+            <span class="star-review"></span>
+          </div>
+        </div>
+        <div class="review-date-info">
+          <span class="review-date">{{ review.created_at|date:"F d, Y" }}</span>
+          <span class="review-time">{{ review.created_at|time:"g:i A" }}</span>
+        </div>
+      </div>
+
+      <div class="customer-comment">{{ review.comment }}</div>
+
+      {% if review.images %}
+      <div class="review-images-grid">
+        <div class="review-image-item" onclick="openImageModal('{{ review.images.url }}')">
+          <img src="{{ review.images.url }}" alt="Review image" />
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="review-actions">
+        <div class="review-likes">
+          {% if user.is_authenticated %}
+          <form method="post" action="{% url 'travel_app:like_review' review.id %}" class="like-form">
+            {% csrf_token %}
+            <button type="submit" class="like-button {% if review.id|stringformat:'s' in request.session.liked_reviews %}liked{% endif %}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="{% if review.id|stringformat:'s' in request.session.liked_reviews %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="2">
+                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+              </svg>
+              <span class="like-text">{% if review.id|stringformat:'s' in request.session.liked_reviews %}Liked{% else %}Helpful{% endif %}</span>
+            </button>
+          </form>
+          {% else %}
+          <a href="{% url 'travel_app:login' %}" class="like-button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+            </svg>
+            Login to like
+          </a>
+          {% endif %}
+          <span class="likes-count">{{ review.likes }}</span>
+        </div>
+      </div>
+
+      {% if review.reply %}
+      <div class="reply">
+        <div class="reply-header">
+          <strong>Response from management</strong>
+          <div class="reply-date">
+            <span>{{ review.reply_date|date:"F d, Y" }}</span>
+            <span class="reply-time">{{ review.reply_date|time:"g:i A" }}</span>
+          </div>
+        </div>
+        <p>{{ review.reply }}</p>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Image Modal -->
+<div class="review-image-modal" id="imageModal" onclick="closeImageModal()">
+  <img src="" alt="Full size image" class="modal-image" id="modalImage">
+</div>
+
+<script>
+function openImageModal(imageUrl) {
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage');
+  modalImage.src = imageUrl;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeImageModal() {
+  const modal = document.getElementById('imageModal');
+  modal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+// Add AJAX functionality for likes
+document.addEventListener('DOMContentLoaded', function() {
+  const likeForms = document.querySelectorAll('.like-form');
+  
+  likeForms.forEach(form => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const button = form.querySelector('.like-button');
+      const likeText = button.querySelector('.like-text');
+      const svg = button.querySelector('svg');
+      
+      fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+        body: new FormData(form)
+      })
+      .then(response => response.json())
+      .then(data => {
+        const likesCount = form.parentElement.querySelector('.likes-count');
+        likesCount.textContent = data.likes_count;
+        
+        if (data.action === 'liked') {
+          button.classList.add('liked');
+          likeText.textContent = 'Liked';
+          svg.setAttribute('fill', 'currentColor');
+        } else {
+          button.classList.remove('liked');
+          likeText.textContent = 'Helpful';
+          svg.setAttribute('fill', 'none');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  });
+});
+</script>
 {% endblock content %}

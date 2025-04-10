@@ -19,6 +19,7 @@ urlpatterns = [
     path("destination/<int:destination_id>/", destination_detail, name="destination_detail"),  
     path("wishlist/", wishlist, name="wishlist"),  
     path("review/", review, name="review"),
+    path("submit_review/", submit_review, name="submit_review"),
     # path('search_all/', search_all, name='search_all'),
     path('hotels/', hotels, name='hotels'),
     path('hotel/<int:hotel_id>/', hotel_detail, name='hotel_detail'),
@@ -31,6 +32,7 @@ urlpatterns = [
     path("payment/<int:booking_id>/", payment, name="payment"),
     path("payment-success/", payment_success, name="payment_success"),
     path("payment-failure/", payment_failure, name="payment_failure"),
+    path('review/<int:review_id>/like/', like_review, name='like_review'),
     
  
 

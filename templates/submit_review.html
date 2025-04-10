@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="review-form-container">
+    <div class="review-form-header">
+        <h3>Write a Review</h3>
+        <p>Share your honest experience to help other travelers make better decisions</p>
+    </div>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="review-form-step">
+            <div class="review-form-step-label" data-step="1">What type of place are you reviewing?</div>
+            <select name="review_type" id="review_type" class="review-select main-select" required>
+                <option value="">Choose one...</option>
+                <option value="travel_package">Travel Package</option>
+                <option value="hotel">Hotel or Resort</option>
+                <option value="activity">Activity or Attraction</option>
+            </select>
+        </div>
+
+        <div id="item_selection" class="review-form-step" style="display: none;">
+            <div class="review-form-step-label" data-step="2">
+                <span id="selection-label">Select an item</span>
+            </div>
+            <select name="travel_package" id="id_travel_package" class="review-select item-select" style="display: none;">
+                <option value="">Which package did you take?</option>
+                {% for package in travel_packages %}
+                <option value="{{ package.id }}">{{ package.name }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="hotel" id="id_hotel" class="review-select item-select" style="display: none;">
+                <option value="">Which hotel did you visit?</option>
+                {% for hotel in hotels %}
+                <option value="{{ hotel.id }}">{{ hotel.name }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="activity" id="id_activity" class="review-select item-select" style="display: none;">
+                <option value="">Which activity did you partake?</option>
+                {% for activity in activities %}
+                <option value="{{ activity.id }}">{{ activity.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="review-form-step">
+            <div class="review-form-step-label" data-step="3">Rate your overall experience</div>
+            <div class="star-rating-container">
+                <div class="star-rating-display">
+                    <span class="star" data-rating="1">★</span>
+                    <span class="star" data-rating="2">★</span>
+                    <span class="star" data-rating="3">★</span>
+                    <span class="star" data-rating="4">★</span>
+                    <span class="star" data-rating="5">★</span>
+                </div>
+                <input type="range" class="star-rating-input" id="id_rating" name="rating" min="1" max="5" step="1" value="5" required>
+            </div>
+        </div>
+
+        <div class="review-form-step">
+            <div class="review-form-step-label" data-step="4">Tell us about your experience</div>
+            <textarea name="comment" id="id_comment" class="review-comment" rows="6" placeholder="Share your experience! What did you like? What could have been better? Your review will help other travelers make better decisions." required></textarea>
+        </div>
+
+        <div class="review-form-step">
+            <div class="review-form-step-label" data-step="5">Add photos to your review</div>
+            <label class="file-upload-label">
+                <span>Click to upload photos (Optional)</span>
+                {{ form.images }}
+            </label>
+        </div>
+
+        <div class="review-form-actions">
+            <button type="submit" class="review-submit-btn">Submit Your Review</button>
+            <a href="{% url 'travel_app:home' %}" class="review-cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Star rating functionality
+        const ratingInput = document.getElementById('id_rating');
+        const stars = document.querySelectorAll('.star');
+        
+        function updateStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+        
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                const rating = index + 1;
+                ratingInput.value = rating;
+                updateStars(rating);
+            });
+            
+            star.addEventListener('mouseover', () => {
+                updateStars(index + 1);
+            });
+            
+            star.addEventListener('mouseout', () => {
+                updateStars(parseInt(ratingInput.value));
+            });
+        });
+        
+        // Initialize stars
+        updateStars(parseInt(ratingInput.value));
+        
+        // Handle dropdown selection
+        const reviewTypeSelect = document.getElementById('review_type');
+        const itemSelectionDiv = document.getElementById('item_selection');
+        const selectionLabel = document.getElementById('selection-label');
+        const travelPackageSelect = document.getElementById('id_travel_package');
+        const hotelSelect = document.getElementById('id_hotel');
+        const activitySelect = document.getElementById('id_activity');
+        
+        function hideAllSelects() {
+            [travelPackageSelect, hotelSelect, activitySelect].forEach(select => {
+                select.style.display = 'none';
+                select.removeAttribute('required');
+                select.value = '';
+            });
+        }
+        
+        reviewTypeSelect.addEventListener('change', function() {
+            hideAllSelects();
+            itemSelectionDiv.style.display = 'none';
+            
+            if (this.value) {
+                itemSelectionDiv.style.display = 'block';
+                const selectedSelect = document.getElementById(`id_${this.value}`);
+                if (selectedSelect) {
+                    selectedSelect.style.display = 'block';
+                    selectedSelect.setAttribute('required', 'required');
+                    
+                    // Update the label based on selection
+                    switch(this.value) {
+                        case 'travel_package':
+                            selectionLabel.textContent = 'Which package did you take?';
+                            break;
+                        case 'hotel':
+                            selectionLabel.textContent = 'Which hotel did you visit?';
+                            break;
+                        case 'activity':
+                            selectionLabel.textContent = 'Which activity did you partake?';
+                            break;
+                    }
+                }
+            }
+        });
+        
+        // Form validation
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            const selectedType = reviewTypeSelect.value;
+            
+            if (!selectedType) {
+                event.preventDefault();
+                alert('Please select what you would like to review.');
+                return;
+            }
+            
+            const selectedItem = document.getElementById(`id_${selectedType}`).value;
+            if (!selectedItem) {
+                event.preventDefault();
+                alert('Please select a specific item to review.');
+                return;
+            }
+        });
+    });
+</script>
+{% endblock %} 
