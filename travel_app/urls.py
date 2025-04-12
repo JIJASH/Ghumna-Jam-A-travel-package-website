@@ -30,8 +30,8 @@ urlpatterns = [
     path("booking/<str:type>/<int:id>/", booking, name="booking"),
     path("booking_confirmation/<int:booking_id>/", booking_confirmation, name="booking_confirmation"),
     path("payment/<int:booking_id>/", payment, name="payment"),
-    path("payment-success/", payment_success, name="payment_success"),
-    path("payment-failure/", payment_failure, name="payment_failure"),
+    path("payment_success/<int:booking_id>/'", payment_success, name="payment_success"),
+    path("payment_failure/", payment_failure, name="payment_failure"),
     path('review/<int:review_id>/like/', like_review, name='like_review'),
     
  

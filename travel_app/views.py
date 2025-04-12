@@ -13,9 +13,15 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 import requests
 import json
+import logging
+from django.urls import reverse
+import hmac
+import hashlib
+import base64
 
 
 
+logger = logging.getLogger('travel_app')
 
 
 # @login_required
@@ -229,62 +235,100 @@ def booking_confirmation(request, booking_id):
 @login_required
 def payment(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
+    logger.debug(f"Payment initiated for booking ID: {booking.id}, Amount: {booking.total_amount}")
+    
     payment, created = Payment.objects.get_or_create(
         booking=booking,
         defaults={
             'amount': booking.total_amount,
-            'payment_method': 'Khalti',
+            'payment_method': 'eSewa',
             'payment_status': 'Pending'
         }
     )
-    if request.method == 'POST':
-        return redirect('travel_app:payment_success', booking_id=booking.id)
-    return render(request, 'payment.html', {'booking': booking, 'payment': payment})
+    # eSewa form parameters (Epay-v1)
+    esewa_data = {
+        'amt': booking.total_amount,
+        'pdc': 0,  # Delivery charge
+        'psc': 0,  # Service charge
+        'txAmt': 0,  # Tax amount
+        'tAmt': booking.total_amount,
+        'pid': f'booking_{booking.id}',
+        'scd': settings.ESEWA_MERCHANT_ID,
+        'su': request.build_absolute_uri(reverse('travel_app:payment_success', args=[booking.id])),
+        'fu': request.build_absolute_uri(reverse('travel_app:payment_failure') + f'?booking_id={booking.id}'),
+    }
+    logger.info(f"eSewa payment form prepared for booking ID: {booking.id}, Parameters: {esewa_data}")
+    return render(request, 'payment.html', {
+        'booking': booking,
+        'payment': payment,
+        'esewa_data': esewa_data,
+        'esewa_payment_url': settings.ESEWA_PAYMENT_URL,
+    })
 
 @login_required
 def payment_success(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
     payment = get_object_or_404(Payment, booking=booking)
-    token = request.GET.get('token')
-    amount = request.GET.get('amount')
-    if token and amount:
+    
+    # Log query parameters received from eSewa
+    oid = request.GET.get('oid')
+    amt = request.GET.get('amt')
+    refId = request.GET.get('refId')
+    logger.debug(f"Payment success accessed for booking ID: {booking.id}, Query Params: oid={oid}, amt={amt}, refId={refId}")
+    
+    if oid and amt and refId:
+        # Verify payment with eSewa
         try:
-            headers = {
-                'Authorization': f'Key {settings.KHALTI_SECRET_KEY}',
-                'Content-Type': 'application/json',
+            verify_data = {
+                'amt': float(amt),
+                'scd': settings.ESEWA_MERCHANT_ID,
+                'pid': oid,
+                'rid': refId,
             }
-            payload = {
-                'token': token,
-                'amount': int(float(amount))  # Amount in paisa
-            }
-            response = requests.post(settings.KHALTI_VERIFY_URL, headers=headers, json=payload)
-            response_data = response.json()
-            if response.status_code == 200 and 'idx' in response_data:
-                payment.transaction_id = response_data['idx']
-                payment.khalti_token = token
-                payment.khalti_status = response_data.get('state', {}).get('name', 'Completed')
+            logger.debug(f"Sending verification request to eSewa: {verify_data}")
+            response = requests.get(
+                settings.ESEWA_VERIFY_URL,
+                params=verify_data,
+                headers={'User-Agent': 'Mozilla/5.0'},
+            )
+            logger.debug(f"eSewa verification response for booking ID: {booking.id}: {response.text}")
+            
+            if 'Success' in response.text:
+                payment.transaction_id = refId
                 payment.payment_status = 'Completed'
                 payment.save()
                 booking.payment_status = 'Paid'
                 booking.status = 'Confirmed'
                 booking.save()
-                return render(request, 'payment_success.html', {'booking': booking, 'payment': payment})
+                logger.info(f"Payment verified for booking ID: {booking.id}, Transaction ID: {refId}")
             else:
                 payment.payment_status = 'Failed'
-                payment.khalti_status = response_data.get('state', {}).get('name', 'Failed')
                 payment.save()
-                return redirect('travel_app:payment_failure')
+                logger.warning(f"Payment verification failed for booking ID: {booking.id}: {response.text}")
+                return redirect(reverse('travel_app:payment_failure') + f'?booking_id={booking.id}')
         except Exception as e:
             payment.payment_status = 'Failed'
-            payment.khalti_status = 'Error'
             payment.save()
-            return redirect('travel_app:payment_failure')
-    return render(request, 'payment_success.html', {'booking': booking, 'payment': payment})
+            logger.error(f"eSewa verification error for booking ID: {booking.id}: {str(e)}")
+            return redirect(reverse('travel_app:payment_failure') + f'?booking_id={booking.id}')
+        
+        # Render the success page
+        try:
+            return render(request, 'payment_success.html', {'booking': booking, 'payment': payment})
+        except Exception as e:
+            logger.error(f"Template rendering error for booking ID: {booking.id}: {str(e)}")
+            return redirect(reverse('travel_app:payment_failure') + f'?booking_id={booking.id}')
+    else:
+        logger.warning(f"Missing verification parameters for booking ID: {booking.id}: oid={oid}, amt={amt}, refId={refId}")
+        payment.payment_status = 'Failed'
+        payment.save()
+        return redirect(reverse('travel_app:payment_failure') + f'?booking_id={booking.id}')
 
 @login_required
 def payment_failure(request):
     booking_id = request.GET.get('booking_id')
     booking = get_object_or_404(Booking, id=booking_id) if booking_id else None
+    logger.debug(f"Payment failure accessed for booking ID: {booking_id or 'None'}")
     return render(request, 'payment_failure.html', {'booking': booking})
 
 

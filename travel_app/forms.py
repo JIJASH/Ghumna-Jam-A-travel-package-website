@@ -31,7 +31,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 
-# forms.py
+
 
 
 class CustomerForm(forms.ModelForm):
@@ -49,10 +49,30 @@ class CustomerForm(forms.ModelForm):
 
 
 
+import json
+
 class BookingForm(forms.ModelForm):
+    emergency_contact = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Name, Relation, Phone'}))
+
     class Meta:
         model = Booking
-        fields = ["travel_date", "number_of_travelers", "special_requests", "emergency_contact"]
+        fields = ['travel_date', 'number_of_travelers', 'special_requests', 'emergency_contact']
+        widgets = {
+            'travel_date': forms.DateInput(attrs={'type': 'date', 'required': 'true'}),
+            'number_of_travelers': forms.NumberInput(attrs={'min': '1', 'value': '1', 'required': 'true'}),
+            'special_requests': forms.Textarea(attrs={'rows': '4'}),
+        }
+
+    def clean_emergency_contact(self):
+        data = self.cleaned_data['emergency_contact']
+        if data:
+            try:
+                # Convert string to JSON (e.g., "Name, Relation, Phone" to dict)
+                name, relation, phone = data.split(',')
+                return {'name': name.strip(), 'relation': relation.strip(), 'phone': phone.strip()}
+            except ValueError:
+                raise forms.ValidationError("Enter emergency contact as: Name, Relation, Phone")
+        return {}
         
 class ReviewForm(forms.ModelForm):
     class Meta:

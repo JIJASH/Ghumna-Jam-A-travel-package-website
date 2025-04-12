@@ -60,6 +60,13 @@ MIDDLEWARE = [
 ]
 
 
+SECURE_SSL_REDIRECT = False  # Set to True in production
+SECURE_HSTS_SECONDS = 0  # Set to 31536000 in production
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False  # Set to True in production
+SECURE_HSTS_PRELOAD = False  # Set to True in production
+CSRF_COOKIE_SECURE = False  # Set to True in production
+SESSION_COOKIE_SECURE = False  # Set to True in production
+
 
 ROOT_URLCONF = 'travelproject.urls'
 
@@ -182,7 +189,31 @@ AUTH_USER_MODEL = 'travel_app.CustomUser'
 
 
 
-KHALTI_SECRET_KEY = "live_secret_key_9209bb1b39f4467892ea894df80e8c1c"  
-KHALTI_PUBLIC_KEY = "live_public_key_9209bb1b39f4467892ea894df80e8c1c"  
-KHALTI_VERIFY_URL = "https://khalti.com/api/v2/payment/verify/"
+ESEWA_MERCHANT_ID = 'EPAYTEST'
+ESEWA_PAYMENT_URL = 'https://rc.esewa.com.np/epay/main'  # Legacy Test URL
+ESEWA_VERIFY_URL = 'https://rc.esewa.com.np/epay/transrec' # For signature generation
 
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'travel_app': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

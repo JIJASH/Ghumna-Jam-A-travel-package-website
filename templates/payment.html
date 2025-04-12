@@ -22,41 +22,39 @@
             </div>
         </div>
         <div class="payment-form bg-gray-50 p-4 rounded-lg">
-            <h2 class="text-xl font-semibold mb-4 text-gray-700">Pay with Khalti</h2>
-            <form id="khalti-payment-form">
-                <input type="hidden" id="public_key" name="public_key" value="{{ settings.KHALTI_PUBLIC_KEY }}">
-                <input type="hidden" id="amount" name="amount" value="{{ booking.total_amount|floatformat:2 }}">
-                <input type="hidden" id="product_identity" name="product_identity" value="{{ booking.id }}">
-                <input type="hidden" id="product_name" name="product_name" value="{% if booking.travel_package %}{{ booking.travel_package.name }}{% elif booking.hotel %}{{ booking.hotel.name }}{% elif booking.activity %}{{ booking.activity.name }}{% endif %}">
-                <input type="hidden" id="product_url" name="product_url" value="{% url 'travel_app:booking_confirmation' booking_id=booking.id %}">
-                <button type="button" id="khalti-payment-button" class="pay-button bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition duration-200">Pay Now with Khalti</button>
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Pay with eSewa</h2>
+            <form id="esewa-payment-form" action="{{ esewa_payment_url }}" method="POST">
+                <input type="hidden" name="tAmt" value="{{ esewa_data.tAmt }}">
+                <input type="hidden" name="amt" value="{{ esewa_data.amt }}">
+                <input type="hidden" name="txAmt" value="{{ esewa_data.txAmt }}">
+                <input type="hidden" name="psc" value="{{ esewa_data.psc }}">
+                <input type="hidden" name="pdc" value="{{ esewa_data.pdc }}">
+                <input type="hidden" name="scd" value="{{ esewa_data.scd }}">
+                <input type="hidden" name="pid" value="{{ esewa_data.pid }}">
+                <input type="hidden" name="su" value="{{ esewa_data.su }}">
+                <input type="hidden" name="fu" value="{{ esewa_data.fu }}">
+                <button type="submit" id="esewa-payment-button" class="pay-button bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-200">Pay Now with eSewa</button>
             </form>
         </div>
     </div>
 </div>
 
-<script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
 <script>
-    var config = {
-        "publicKey": "{{ settings.KHALTI_PUBLIC_KEY }}",
-        "productIdentity": "{{ booking.id }}",
-        "productName": "{% if booking.travel_package %}{{ booking.travel_package.name }}{% elif booking.hotel %}{{ booking.hotel.name }}{% elif booking.activity %}{{ booking.activity.name }}{% endif %}",
-        "productUrl": "{% url 'travel_app:booking_confirmation' booking_id=booking.id %}",
-        "eventHandler": {
-            onSuccess(payload) {
-                window.location.href = "{% url 'travel_app:payment_success' booking_id=booking.id %}?token=" + payload.token + "&amount=" + payload.amount;
-            },
-            onError(error) {
-                window.location.href = "{% url 'travel_app:payment_failure' %}?booking_id={{ booking.id }}";
-            },
-            onClose() {
-                console.log("Payment modal closed.");
+    document.addEventListener("DOMContentLoaded", function() {
+        try {
+            console.log("Initializing eSewa payment for booking ID: {{ booking.id }}");
+            var form = document.getElementById("esewa-payment-form");
+            var button = document.getElementById("esewa-payment-button");
+            if (form && button) {
+                button.addEventListener("click", function(event) {
+                    console.log("eSewa button clicked");
+                });
+            } else {
+                console.error("eSewa form or button not found");
             }
+        } catch (e) {
+            console.error("eSewa initialization error:", e.message);
         }
-    };
-    var checkout = new KhaltiCheckout(config);
-    document.getElementById("khalti-payment-button").addEventListener("click", function() {
-        checkout.show({ amount: {{ booking.total_amount|floatformat:2 }} * 100 });
     });
 </script>
 {% endblock content %}
