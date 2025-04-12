@@ -10,6 +10,9 @@ import requests
 import json
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
+from django.conf import settings
+import requests
+import json
 
 
 
@@ -216,19 +219,6 @@ def booking(request, type, id):
 
 
 @login_required
-def payment(request, booking_id):
-    booking = get_object_or_404(Booking, id=booking_id)
-
-    if request.method == 'POST':
-        booking.payment_status = "Paid"
-        booking.save()
-        return redirect('travel_app:booking_confirmation', booking_id=booking.id)
-
-    return render(request, 'payment.html', {'booking': booking})
-
-
-
-@login_required
 def booking_confirmation(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
     return render(request, 'booking_confirmation.html', {'booking': booking})
@@ -236,12 +226,66 @@ def booking_confirmation(request, booking_id):
 
 
 
-def payment_success(request):
+@login_required
+def payment(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    payment, created = Payment.objects.get_or_create(
+        booking=booking,
+        defaults={
+            'amount': booking.total_amount,
+            'payment_method': 'Khalti',
+            'payment_status': 'Pending'
+        }
+    )
+    if request.method == 'POST':
+        return redirect('travel_app:payment_success', booking_id=booking.id)
+    return render(request, 'payment.html', {'booking': booking, 'payment': payment})
 
-    return render(request, 'booking_confirmation.html')
+@login_required
+def payment_success(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    payment = get_object_or_404(Payment, booking=booking)
+    token = request.GET.get('token')
+    amount = request.GET.get('amount')
+    if token and amount:
+        try:
+            headers = {
+                'Authorization': f'Key {settings.KHALTI_SECRET_KEY}',
+                'Content-Type': 'application/json',
+            }
+            payload = {
+                'token': token,
+                'amount': int(float(amount))  # Amount in paisa
+            }
+            response = requests.post(settings.KHALTI_VERIFY_URL, headers=headers, json=payload)
+            response_data = response.json()
+            if response.status_code == 200 and 'idx' in response_data:
+                payment.transaction_id = response_data['idx']
+                payment.khalti_token = token
+                payment.khalti_status = response_data.get('state', {}).get('name', 'Completed')
+                payment.payment_status = 'Completed'
+                payment.save()
+                booking.payment_status = 'Paid'
+                booking.status = 'Confirmed'
+                booking.save()
+                return render(request, 'payment_success.html', {'booking': booking, 'payment': payment})
+            else:
+                payment.payment_status = 'Failed'
+                payment.khalti_status = response_data.get('state', {}).get('name', 'Failed')
+                payment.save()
+                return redirect('travel_app:payment_failure')
+        except Exception as e:
+            payment.payment_status = 'Failed'
+            payment.khalti_status = 'Error'
+            payment.save()
+            return redirect('travel_app:payment_failure')
+    return render(request, 'payment_success.html', {'booking': booking, 'payment': payment})
 
+@login_required
 def payment_failure(request):
-    return render(request, 'payment_failure.html')
+    booking_id = request.GET.get('booking_id')
+    booking = get_object_or_404(Booking, id=booking_id) if booking_id else None
+    return render(request, 'payment_failure.html', {'booking': booking})
 
 
 @login_required

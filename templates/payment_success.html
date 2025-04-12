@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Successful</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Payment Successful!</h1>
-    <p>Thank you for your payment.</p>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center">
+        <h1 class="text-2xl font-bold text-green-600 mb-4">Payment Successful!</h1>
+        <p class="text-gray-700 mb-4">Thank you for your payment. Your booking is now confirmed.</p>
+        {% if booking %}
+            <p class="text-gray-600"><strong>Booking ID:</strong> {{ booking.id }}</p>
+            <p class="text-gray-600"><strong>Amount Paid:</strong> Rs. {{ payment.amount }}</p>
+        {% endif %}
+        <a href="{% url 'travel_app:home' %}" class="mt-6 inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200">Return to Home</a>
+    </div>
 </body>
 </html>

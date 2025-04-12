@@ -291,6 +291,8 @@ class Payment(models.Model):
     transaction_id = models.CharField(max_length=100, blank=True, null=True)
     payment_proof = models.FileField(upload_to='payment_proofs/', blank=True, null=True)
     refund_status = models.CharField(max_length=20, blank=True, null=True)
+    khalti_token = models.CharField(max_length=100, blank=True, null=True)  # Added for Khalti
+    khalti_status = models.CharField(max_length=50, blank=True, null=True) 
     
     def __str__(self):
         return f"Payment for booking {self.booking.id}"

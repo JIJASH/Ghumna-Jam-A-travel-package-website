@@ -182,17 +182,7 @@ AUTH_USER_MODEL = 'travel_app.CustomUser'
 
 
 
-# CSRF_TRUSTED_ORIGINS = [
-#     'http://localhost:8000',
-#     'https://localhost:8000',
-# ]
-
-# ngrok_host = os.environ.get('NGROK_HOST')
-# if ngrok_host:
-#     CSRF_TRUSTED_ORIGINS.append(f'https://{ngrok_host}')
-
-
-
-# CSRF_COOKIE_SECURE = False
-
+KHALTI_SECRET_KEY = "live_secret_key_9209bb1b39f4467892ea894df80e8c1c"  
+KHALTI_PUBLIC_KEY = "live_public_key_9209bb1b39f4467892ea894df80e8c1c"  
+KHALTI_VERIFY_URL = "https://khalti.com/api/v2/payment/verify/"
 
