@@ -12,7 +12,7 @@
         {% csrf_token %}
         
         <div class="review-form-step">
-            <div class="review-form-step-label" data-step="1">What type of place are you reviewing?</div>
+            <div class="review-form-step-label" data-step="1">What are you reviewing?</div>
             <select name="review_type" id="review_type" class="review-select main-select" required>
                 <option value="">Choose one...</option>
                 <option value="travel_package">Travel Package</option>
@@ -70,7 +70,8 @@
             <div class="review-form-step-label" data-step="5">Add photos to your review</div>
             <label class="file-upload-label">
                 <span>Click to upload photos (Optional)</span>
-                {{ form.images }}
+                <input type="file" name="images" id="id_images" multiple accept="image/*">
+                <div class="file-names-container"></div>
             </label>
         </div>
 
@@ -175,6 +176,52 @@
                 event.preventDefault();
                 alert('Please select a specific item to review.');
                 return;
+            }
+        });
+
+        // Multiple file upload name display
+        const fileInput = document.getElementById('id_images');
+        const fileNamesContainer = document.querySelector('.file-names-container');
+
+        fileInput.addEventListener('change', function() {
+            fileNamesContainer.innerHTML = ''; // Clear previous files
+            
+            if (this.files && this.files.length > 0) {
+                const fileList = document.createElement('div');
+                fileList.className = 'file-list';
+                
+                Array.from(this.files).forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    
+                    const fileName = document.createElement('span');
+                    fileName.className = 'file-name';
+                    fileName.textContent = file.name;
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-file';
+                    removeBtn.innerHTML = '×';
+                    removeBtn.onclick = function() {
+                        const dt = new DataTransfer();
+                        const files = Array.from(fileInput.files);
+                        files.splice(index, 1);
+                        files.forEach(file => dt.items.add(file));
+                        fileInput.files = dt.files;
+                        fileItem.remove();
+                        if (files.length === 0) {
+                            fileNamesContainer.style.display = 'none';
+                        }
+                    };
+                    
+                    fileItem.appendChild(fileName);
+                    fileItem.appendChild(removeBtn);
+                    fileList.appendChild(fileItem);
+                });
+                
+                fileNamesContainer.appendChild(fileList);
+                fileNamesContainer.style.display = 'block';
+            } else {
+                fileNamesContainer.style.display = 'none';
             }
         });
     });

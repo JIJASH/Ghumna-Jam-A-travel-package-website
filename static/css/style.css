@@ -1125,7 +1125,7 @@ img {
 
 .review-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 30px;
   animation: fadeIn 1s ease;
 }
@@ -1133,9 +1133,11 @@ img {
 .customer-card {
   background: white;
   border-radius: 12px;
-  padding: 20px;
+  padding: 30px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 100%;
 }
 
 .customer-card:hover {
@@ -1187,7 +1189,7 @@ img {
 
 .rating-review {
   position: relative;
-  width: 100px;
+  width: 160px;
   height: 20px;
 }
 
@@ -1219,6 +1221,14 @@ img {
   content: '\f005';
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
+}
+
+.star-review.filled {
+  color: #f6ad55;
+}
+
+.star-review:not(.filled) {
+  color: #e2e8f0;
 }
 
 .review-date-info {

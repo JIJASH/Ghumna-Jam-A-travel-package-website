@@ -36,19 +36,15 @@
 
       <div class="rating-date-container">
         <div class="rating-review">
-          <div class="rating-upper-review" style="width: {% widthratio review.rating 5 100 %}%">
-            <span class="star-review"></span>
-            <span class="star-review"></span>
-            <span class="star-review"></span>
-            <span class="star-review"></span>
-            <span class="star-review"></span>
+          <div class="rating-upper-review">
+            {% for i in "12345"|make_list %}
+              <span class="star-review {% if forloop.counter <= review.rating %}filled{% endif %}"></span>
+            {% endfor %}
           </div>
           <div class="rating-lower-review">
-            <span class="star-review"></span>
-            <span class="star-review"></span>
-            <span class="star-review"></span>
-            <span class="star-review"></span>
-            <span class="star-review"></span>
+            {% for i in "12345"|make_list %}
+              <span class="star-review"></span>
+            {% endfor %}
           </div>
         </div>
         <div class="review-date-info">
