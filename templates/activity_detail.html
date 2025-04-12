@@ -3,6 +3,11 @@
 <div class="activity-detail-container">
     <h1 class="activity-detail-heading">{{ activity.name }}</h1>
     <div class="activity-detail-content">
+        {% if user.is_authenticated %}
+        <div class="wishlist-heart {% if activity in user.wishlist.activities.all %}active{% endif %}" data-id="{{ activity.id }}" data-type="activity" onclick="event.stopPropagation();">
+            <i class="fas fa-heart"></i>
+        </div>
+        {% endif %}
         {% if activity.image %}
         <img src="{{ activity.image.url }}" alt="{{ activity.name }}" class="activity-detail-image">
         {% else %}
@@ -23,4 +28,59 @@
         <button onclick="window.location.href='{% url 'travel_app:profile' %}?type=activity&id={{ activity.id }}'">Book Now</button>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const wishlistHeart = document.querySelector('.wishlist-heart');
+    if (wishlistHeart) {
+        wishlistHeart.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const itemId = wishlistHeart.dataset.id;
+            const itemType = wishlistHeart.dataset.type;
+            
+            try {
+                const response = await fetch('/toggle-wishlist/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        id: itemId,
+                        type: itemType
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.added) {
+                        wishlistHeart.classList.add('active');
+                    } else {
+                        wishlistHeart.classList.remove('active');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
 {% endblock content %}

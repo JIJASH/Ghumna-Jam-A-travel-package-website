@@ -78,6 +78,11 @@
         <div class="hotel-grid">
             {% for hotel in destination.hotels.all %}
             <div class="hotel-card" onclick="window.location.href='{% url 'travel_app:hotel_detail' hotel.id %}'">
+                {% if user.is_authenticated %}
+                <div class="wishlist-heart {% if hotel in user.wishlist.hotels.all %}active{% endif %}" data-id="{{ hotel.id }}" data-type="hotel" onclick="event.stopPropagation();">
+                    <i class="fas fa-heart"></i>
+                </div>
+                {% endif %}
                 <div class="hotel-image-container">
                     {% if hotel.image %}
                     <img src="{{ hotel.image.url }}" alt="{{ hotel.name }}" class="hotel-image">
@@ -116,23 +121,25 @@
         <div class="activity-grid">
             {% for activity in destination.activities.all %}
             <div class="activity-card" onclick="window.location.href='{% url 'travel_app:activity_detail' activity.id %}'">
+                {% if user.is_authenticated %}
+                <div class="wishlist-heart {% if activity in user.wishlist.activities.all %}active{% endif %}" data-id="{{ activity.id }}" data-type="activity" onclick="event.stopPropagation();">
+                    <i class="fas fa-heart"></i>
+                </div>
+                {% endif %}
+                <div class="activity-image-container">
+                    {% if activity.image %}
+                    <img src="{{ activity.image.url }}" alt="{{ activity.name }}" class="activity-image">
+                    {% else %}
+                    <div class="activity-image-placeholder">No Image</div>
+                    {% endif %}
+                </div>
+                <div class="activity-info">
+                    <h3 class="activity-name">{{ activity.name }}</h3>
+                    <p class="activity-duration">Duration: {{ activity.duration }}</p>
+                    <p class="activity-difficulty">Difficulty: {{ activity.difficulty_level }}</p>
+                    <p class="activity-price">Rs. {{ activity.price }} per person</p>
+                    <button class="view-details-btn" onclick="window.location.href='{% url 'travel_app:activity_detail' activity.id %}'">View Details</button>
 
-                <div class="activity-card">
-                    <div class="activity-image-container">
-                        {% if activity.image %}
-                        <img src="{{ activity.image.url }}" alt="{{ activity.name }}" class="activity-image">
-                        {% else %}
-                        <div class="activity-image-placeholder">No Image</div>
-                        {% endif %}
-                    </div>
-                    <div class="activity-info">
-                        <h3 class="activity-name">{{ activity.name }}</h3>
-                        <p class="activity-duration">Duration: {{ activity.duration }}</p>
-                        <p class="activity-difficulty">Difficulty: {{ activity.difficulty_level }}</p>
-                        <p class="activity-price">Rs. {{ activity.price }} per person</p>
-                        <button class="view-details-btn" onclick="window.location.href='{% url 'travel_app:activity_detail' activity.id %}'">View Details</button>
-
-                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -150,24 +157,26 @@
         <div class="package-grid">
             {% for package in destination.travel_packages.all %}
             <div class="package-card" onclick="window.location.href='{% url 'travel_app:package_detail' package.id %}'">
-
-                <div class="package-card">
-                    <div class="package-image-container">
-                        {% if package.image %}
-                        <img src="{{ package.image.url }}" alt="{{ package.name }}" class="package-image">
-                        {% else %}
-                        <div class="package-image-placeholder">No Image</div>
-                        {% endif %}
-                    </div>
-                    <div class="package-info">
-                        <h3 class="package-name">{{ package.name }}</h3>
-                        <p class="package-duration">{{ package.duration }} days</p>
-                        <p class="package-difficulty">{{ package.difficulty_level }}</p>
-                        <p class="package-price">Rs. {{ package.price }}</p>
-                        <button class="view-details-btn" onclick="window.location.href='package_detail.html?id={{ packages.id }}'">
-                        View Details
+                {% if user.is_authenticated %}
+                <div class="wishlist-heart {% if package in user.wishlist.packages.all %}active{% endif %}" data-id="{{ package.id }}" data-type="package" onclick="event.stopPropagation();">
+                    <i class="fas fa-heart"></i>
+                </div>
+                {% endif %}
+                <div class="package-image-container">
+                    {% if package.image %}
+                    <img src="{{ package.image.url }}" alt="{{ package.name }}" class="package-image">
+                    {% else %}
+                    <div class="package-image-placeholder">No Image</div>
+                    {% endif %}
+                </div>
+                <div class="package-info">
+                    <h3 class="package-name">{{ package.name }}</h3>
+                    <p class="package-duration">{{ package.duration }} days</p>
+                    <p class="package-difficulty">{{ package.difficulty_level }}</p>
+                    <p class="package-price">Rs. {{ package.price }}</p>
+                    <button class="view-details-btn" onclick="window.location.href='{% url 'travel_app:package_detail' package.id %}'">
+                    View Details
                     </button>
-                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -205,6 +214,58 @@
                 document.getElementById(tabId).classList.remove('hidden');
             });
         });
+
+        // Wishlist heart functionality
+        const wishlistHearts = document.querySelectorAll('.wishlist-heart');
+        wishlistHearts.forEach(heart => {
+            heart.addEventListener('click', async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const itemId = heart.dataset.id;
+                const itemType = heart.dataset.type;
+                
+                try {
+                    const response = await fetch('/toggle-wishlist/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        body: JSON.stringify({
+                            id: itemId,
+                            type: itemType
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.added) {
+                            heart.classList.add('active');
+                        } else {
+                            heart.classList.remove('active');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
     });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 </script>
 {% endblock content %}

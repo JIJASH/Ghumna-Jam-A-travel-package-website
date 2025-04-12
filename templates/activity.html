@@ -6,6 +6,11 @@
         <div class="activity-grid">
             {% for activity in activities %}
             <div class="activity-card" onclick="window.location.href='{% url 'travel_app:activity_detail' activity.id %}'">
+                {% if user.is_authenticated %}
+                <div class="wishlist-heart {% if activity in user.wishlist.activities.all %}active{% endif %}" data-id="{{ activity.id }}" data-type="activity" onclick="event.stopPropagation();">
+                    <i class="fas fa-heart"></i>
+                </div>
+                {% endif %}
                 <div class="activity-image-container">
                     {% if activity.image %}
                     <img src="{{ activity.image.url }}" alt="{{ activity.name }}" class="activity-image">
@@ -63,5 +68,60 @@
             {% endfor %}
         </div>
     </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const wishlistHearts = document.querySelectorAll('.wishlist-heart');
+    wishlistHearts.forEach(heart => {
+        heart.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const itemId = heart.dataset.id;
+            const itemType = heart.dataset.type;
+            
+            try {
+                const response = await fetch('/toggle-wishlist/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        id: itemId,
+                        type: itemType
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.added) {
+                        heart.classList.add('active');
+                    } else {
+                        heart.classList.remove('active');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
 {% comment %} </div> {% endcomment %}
 {% endblock content %}

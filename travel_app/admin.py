@@ -195,16 +195,13 @@ class ReviewAdmin(admin.ModelAdmin):
 
 @admin.register(WishList)
 class WishListAdmin(admin.ModelAdmin):
-    list_display = ('user', 'travel_package', 'added_date')
-    list_filter = ('added_date',)
-    search_fields = ('user__username', 'travel_package__name')
-    readonly_fields = ('added_date',)
-    list_per_page = 20
-    fieldsets = (
-        ('Wishlist Entry', {
-            'fields': ('user', 'travel_package', 'notes')
-        }),
-    )
+    list_display = ('user',)
+    filter_horizontal = ('hotels', 'activities', 'packages')
+    search_fields = ('user__username', 'user__email')
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('user')
+
 
 @admin.register(Destination)
 class DestinationAdmin(admin.ModelAdmin):

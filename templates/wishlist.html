@@ -1,5 +1,249 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<h1>Wishlist</h1>
-<p>Save your favorite destinations and activities for later.</p>
-{% endblock content %}
+<div class="wishlist-container">
+    <div class="wishlist-header">
+        <h1>My Wishlist</h1>
+        <p>Items you've saved for later</p>
+    </div>
+
+    <div class="wishlist-tabs">
+        <button class="wishlist-tab active" data-type="all">All</button>
+        <button class="wishlist-tab" data-type="hotel">Hotels</button>
+        <button class="wishlist-tab" data-type="activity">Activities</button>
+        <button class="wishlist-tab" data-type="package">Packages</button>
+    </div>
+
+    {% if wishlist_items %}
+    <div class="wishlist-grid">
+        {% for item in wishlist_items %}
+        <div class="wishlist-item" data-type="{{ item.type }}">
+            <div class="wishlist-item-image">
+                {% if item.image %}
+                <img src="{{ item.image }}" alt="{{ item.name }}">
+                {% else %}
+                <div class="wishlist-image-placeholder">No Image Available</div>
+                {% endif %}
+                <div class="wishlist-heart active" data-id="{{ item.id }}" data-type="{{ item.type }}">
+                    <i class="fas fa-heart"></i>
+                </div>
+            </div>
+            <div class="wishlist-item-info">
+                <h3 class="item-name">{{ item.name }}</h3>
+                <div class="item-actions">
+                    <a href="{% if item.type == 'hotel' %}{% url 'travel_app:hotel_detail' item.id %}
+                             {% elif item.type == 'activity' %}{% url 'travel_app:activity_detail' item.id %}
+                             {% else %}{% url 'travel_app:package_detail' item.id %}{% endif %}" 
+                       class="action-btn view-details-btn">View Details</a>
+                    <a href="{% url 'travel_app:profile' %}?type={{ item.type }}&id={{ item.id }}" 
+                       class="action-btn book-now-btn">Book Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-wishlist">
+        <i class="fas fa-heart-broken"></i>
+        <h2>Your wishlist is empty</h2>
+        <p>Start exploring and save items you love!</p>
+        <a href="{% url 'travel_app:home' %}" class="explore-btn">Explore Now</a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab filtering
+    const tabs = document.querySelectorAll('.wishlist-tab');
+    const items = document.querySelectorAll('.wishlist-item');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Update active tab
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Filter items
+            const type = tab.dataset.type;
+            items.forEach(item => {
+                if (type === 'all' || item.dataset.type === type) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Wishlist heart functionality
+    const hearts = document.querySelectorAll('.wishlist-heart');
+    hearts.forEach(heart => {
+        heart.addEventListener('click', async function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const itemId = this.dataset.id;
+            const itemType = this.dataset.type;
+            
+            try {
+                const response = await fetch('/toggle-wishlist/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        id: itemId,
+                        type: itemType
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    // Remove the item from the wishlist UI with animation
+                    const wishlistItem = this.closest('.wishlist-item');
+                    wishlistItem.style.animation = 'fadeOut 0.3s ease';
+                    setTimeout(() => {
+                        wishlistItem.remove();
+                        // Check if wishlist is empty
+                        const remainingItems = document.querySelectorAll('.wishlist-item');
+                        const currentTab = document.querySelector('.wishlist-tab.active');
+                        const currentType = currentTab.dataset.type;
+                        
+                        let visibleItems = 0;
+                        remainingItems.forEach(item => {
+                            if (currentType === 'all' || item.dataset.type === currentType) {
+                                visibleItems++;
+                            }
+                        });
+
+                        if (visibleItems === 0) {
+                            if (remainingItems.length === 0) {
+                                // If no items left at all, reload to show empty state
+                                location.reload();
+                            } else {
+                                // Show no items message for current tab
+                                const grid = document.querySelector('.wishlist-grid');
+                                const noItemsMessage = document.createElement('div');
+                                noItemsMessage.className = 'no-content';
+                                noItemsMessage.innerHTML = `<p>No ${currentType === 'all' ? 'items' : currentType + 's'} in your wishlist.</p>`;
+                                grid.appendChild(noItemsMessage);
+                            }
+                        }
+                    }, 300);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+
+<style>
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.wishlist-item {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wishlist-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.wishlist-item-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.wishlist-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.wishlist-item-info {
+    padding: 1.5rem;
+}
+
+.item-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+    text-align: center;
+}
+
+.item-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    padding: 0.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.view-details-btn {
+    background-color: #e2e8f0;
+    color: #2d3748;
+}
+
+.book-now-btn {
+    background-color: #000000;
+    color: white;
+}
+
+.view-details-btn:hover {
+    background-color: #cbd5e0;
+}
+
+.book-now-btn:hover {
+    background-color: #1a1a1a;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.9); }
+}
+</style>
+{% endblock %}

@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-{% comment %} <div class="main-content"> {% endcomment %}
     <div class="hotel-container">
-        <h1 class="hotel-heading">Popular hotels in Nepal right now !</h1>
+        <h1 class="hotel-heading">Find Your Perfect Stay in Nepal</h1>
         <div class="hotel-grid">
             {% for hotel in hotels %}
             <div class="hotel-card" onclick="window.location.href='{% url 'travel_app:hotel_detail' hotel.id %}'">
+                {% if user.is_authenticated %}
+                <div class="wishlist-heart {% if hotel in user.wishlist.hotels.all %}active{% endif %}" data-id="{{ hotel.id }}" data-type="hotel" onclick="event.stopPropagation();">
+                    <i class="fas fa-heart"></i>
+                </div>
+                {% endif %}
                 <div class="hotel-image-container">
                     {% if hotel.image %}
                     <img src="{{ hotel.image.url }}" alt="{{ hotel.name }}" class="hotel-image">
@@ -39,6 +43,59 @@
             {% endfor %}
         </div>
     </div>
-{% comment %} </div> {% endcomment %}
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const wishlistHearts = document.querySelectorAll('.wishlist-heart');
+    wishlistHearts.forEach(heart => {
+        heart.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const itemId = heart.dataset.id;
+            const itemType = heart.dataset.type;
+            
+            try {
+                const response = await fetch('/toggle-wishlist/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        id: itemId,
+                        type: itemType
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.added) {
+                        heart.classList.add('active');
+                    } else {
+                        heart.classList.remove('active');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
 {% endblock content %}

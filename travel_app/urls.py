@@ -17,7 +17,6 @@ urlpatterns = [
     path("profile/", profile, name="profile"),  
     path("discover/", discover, name="discover"),
     path("destination/<int:destination_id>/", destination_detail, name="destination_detail"),  
-    path("wishlist/", wishlist, name="wishlist"),  
     path("review/", review, name="review"),
     path("submit_review/", submit_review, name="submit_review"),
     # path('search_all/', search_all, name='search_all'),
@@ -33,9 +32,8 @@ urlpatterns = [
     path("payment_success/<int:booking_id>/'", payment_success, name="payment_success"),
     path("payment_failure/", payment_failure, name="payment_failure"),
     path('review/<int:review_id>/like/', like_review, name='like_review'),
-    
- 
-
+    path('wishlist/', wishlist_view, name='wishlist'),
+    path('toggle-wishlist/', toggle_wishlist, name='toggle_wishlist'),
 ]
 
 if settings.DEBUG:

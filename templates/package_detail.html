@@ -2,6 +2,11 @@
 <div class="package-detail-container">
   <h1 class="package-detail-heading">{{ package.name }}</h1>
   <div class="package-detail-content">
+    {% if user.is_authenticated %}
+    <div class="wishlist-heart {% if package in user.wishlist.packages.all %}active{% endif %}" data-id="{{ package.id }}" data-type="package" onclick="event.stopPropagation();">
+      <i class="fas fa-heart"></i>
+    </div>
+    {% endif %}
     {% if package.image %}
     <img
       src="{{ package.image.url }}"
@@ -77,4 +82,59 @@
   </div>
   
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const wishlistHeart = document.querySelector('.wishlist-heart');
+    if (wishlistHeart) {
+        wishlistHeart.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const itemId = wishlistHeart.dataset.id;
+            const itemType = wishlistHeart.dataset.type;
+            
+            try {
+                const response = await fetch('/toggle-wishlist/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        id: itemId,
+                        type: itemType
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.added) {
+                        wishlistHeart.classList.add('active');
+                    } else {
+                        wishlistHeart.classList.remove('active');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
   {% endblock content %}

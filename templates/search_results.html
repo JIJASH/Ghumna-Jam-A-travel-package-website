@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="search-results-container">
+    <div class="search-results-header">
+        <h1>Search Results</h1>
+        <p>Showing results for "{{ query }}"</p>
+    </div>
+
+    <div class="search-results-count">
+        {{ results|length }} result{% if results|length != 1 %}s{% endif %} found
+    </div>
+
+    <div class="search-filters">
+        <button class="filter-button active" data-filter="all">All</button>
+        <button class="filter-button" data-filter="hotel">Hotels</button>
+        <button class="filter-button" data-filter="activity">Activities</button>
+        <button class="filter-button" data-filter="package">Packages</button>
+        <button class="filter-button" data-filter="destination">Destinations</button>
+    </div>
+
+    {% if results %}
+    <div class="search-results-grid">
+        {% for result in results %}
+        <div class="search-result-card" data-type="{{ result.type }}" onclick="window.location.href='{{ result.url }}'">
+            <div class="search-result-image">
+                {% if result.image %}
+                <img src="{{ result.image.url }}" alt="{{ result.name }}">
+                {% else %}
+                <div class="search-result-image-placeholder">No Image Available</div>
+                {% endif %}
+                <div class="search-result-type">{{ result.type|title }}</div>
+            </div>
+            <div class="search-result-info">
+                <h3 class="search-result-title">{{ result.name }}</h3>
+                <p class="search-result-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{ result.location }}
+                </p>
+                <p class="search-result-description">{{ result.description|truncatewords:20 }}</p>
+                <div class="search-result-meta">
+                    {% if result.price or result.price_per_night %}
+                    <div class="search-result-price">
+                        Rs. {{ result.price|default:result.price_per_night }}
+                        {% if result.type == 'hotel' %}/ night{% endif %}
+                    </div>
+                    {% endif %}
+                    {% if result.rating %}
+                    <div class="search-result-rating">
+                        <i class="fas fa-star"></i>
+                        <span>{{ result.rating|floatformat:1 }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-results">
+        <i class="fas fa-search"></i>
+        <h2>No results found</h2>
+        <p>We couldn't find any matches for your search. Try adjusting your search terms or browse our popular destinations.</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const resultCards = document.querySelectorAll('.search-result-card');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            const filter = button.dataset.filter;
+
+            resultCards.forEach(card => {
+                if (filter === 'all' || card.dataset.type === filter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock content %} 

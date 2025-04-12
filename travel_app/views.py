@@ -18,6 +18,7 @@ from django.urls import reverse
 import hmac
 import hashlib
 import base64
+from django.views.decorators.http import require_POST
 
 
 
@@ -96,8 +97,102 @@ def destination_detail(request, destination_id):
     return render(request, "destination_detail.html", {"destination": destination})
 
 
-def wishlist(request):
-    return render(request, "wishlist.html", {})
+@login_required
+def wishlist_view(request):
+    # Get or create wishlist for the user
+    wishlist, created = WishList.objects.get_or_create(user=request.user)
+    
+    # Get all wishlist items
+    wishlist_items = []
+    
+    # Add hotels
+    for hotel in wishlist.hotels.all():
+        wishlist_items.append({
+            'id': hotel.id,
+            'type': 'hotel',
+            'name': hotel.name,
+            'location': hotel.location,
+            'price_per_night': str(hotel.price_per_night),
+            'image': hotel.image.url if hotel.image else None
+        })
+    
+    # Add activities
+    for activity in wishlist.activities.all():
+        wishlist_items.append({
+            'id': activity.id,
+            'type': 'activity',
+            'name': activity.name,
+            'location': getattr(activity, 'location', ''),
+            'price': str(activity.price),
+            'image': activity.image.url if activity.image else None
+        })
+    
+    # Add packages
+    for package in wishlist.packages.all():
+        wishlist_items.append({
+            'id': package.id,
+            'type': 'package',
+            'name': package.name,
+            'location': package.location,
+            'price': str(package.price),
+            'image': package.image.url if package.image else None
+        })
+    
+    context = {
+        'wishlist_items': wishlist_items
+    }
+    return render(request, 'wishlist.html', context)
+
+@login_required
+@require_POST
+def toggle_wishlist(request):
+    try:
+        data = json.loads(request.body)
+        item_id = data.get('id')
+        item_type = data.get('type')
+        
+        # Get or create wishlist
+        wishlist, created = WishList.objects.get_or_create(user=request.user)
+        
+        # Handle different item types
+        if item_type == 'hotel':
+            item = Hotel.objects.get(id=item_id)
+            if item in wishlist.hotels.all():
+                wishlist.hotels.remove(item)
+                added = False
+            else:
+                wishlist.hotels.add(item)
+                added = True
+                
+        elif item_type == 'activity':
+            item = Activity.objects.get(id=item_id)
+            if item in wishlist.activities.all():
+                wishlist.activities.remove(item)
+                added = False
+            else:
+                wishlist.activities.add(item)
+                added = True
+                
+        elif item_type == 'package':
+            item = TravelPackage.objects.get(id=item_id)
+            if item in wishlist.packages.all():
+                wishlist.packages.remove(item)
+                added = False
+            else:
+                wishlist.packages.add(item)
+                added = True
+        
+        return JsonResponse({
+            'status': 'success',
+            'added': added,
+            'removed': not added
+        })
+        
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': str(e)
+        }, status=400)
 
 
 def review(request):

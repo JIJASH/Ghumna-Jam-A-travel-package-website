@@ -13,7 +13,7 @@
   {% include "components/navbar.html" %}
 
 </head>
-<body>
+<body class="{% if user.is_authenticated %}authenticated{% else %}not-authenticated{% endif %}">
    {% include "components/navbar.html" %} 
    {% block content %}
    {% endblock content %}
