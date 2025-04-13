@@ -395,6 +395,15 @@ def payment_success(request, booking_id):
                 booking.payment_status = 'Paid'
                 booking.status = 'Confirmed'
                 booking.save()
+                
+                # Update hotel available rooms if this is a hotel booking
+                if booking.hotel:
+                    hotel = booking.hotel
+                    if hotel.available_rooms > 0:
+                        hotel.available_rooms -= 1
+                        hotel.save()
+                        logger.info(f"Updated available rooms for hotel {hotel.name} (ID: {hotel.id}). New count: {hotel.available_rooms}")
+                
                 logger.info(f"Payment verified for booking ID: {booking.id}, Transaction ID: {refId}")
             else:
                 payment.payment_status = 'Failed'
