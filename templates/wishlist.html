@@ -35,9 +35,9 @@
                     <a href="{% if item.type == 'hotel' %}{% url 'travel_app:hotel_detail' item.id %}
                              {% elif item.type == 'activity' %}{% url 'travel_app:activity_detail' item.id %}
                              {% else %}{% url 'travel_app:package_detail' item.id %}{% endif %}" 
-                       class="action-btn view-details-btn">View Details</a>
+                       class="action-btn view-details-btn1">View Details</a>
                     <a href="{% url 'travel_app:profile' %}?type={{ item.type }}&id={{ item.id }}" 
-                       class="action-btn book-now-btn">Book Now</a>
+                       class="action-btn book-now-btn1">Book Now</a>
                 </div>
             </div>
         </div>
@@ -210,35 +210,40 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .action-btn {
+    display: inline-block;
     padding: 0.5rem;
-    border-radius: 4px;
-    text-decoration: none;
     text-align: center;
-    font-weight: 500;
+    border-radius: 0.25rem;
     font-size: 0.875rem;
-    transition: all 0.3s ease;
     min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
 }
 
-.view-details-btn {
-    background-color: #e2e8f0;
-    color: #2d3748;
+.view-details-btn1 {
+    background-color: #f7fafc;
+    color: #4a5568;
 }
 
-.book-now-btn {
+.view-details-btn1:hover {
+    background-color: #edf2f7;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-now-btn1 {
     background-color: #000000;
     color: white;
 }
 
-.view-details-btn:hover {
-    background-color: #cbd5e0;
-}
-
-.book-now-btn:hover {
+.book-now-btn1:hover {
     background-color: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes fadeOut {
