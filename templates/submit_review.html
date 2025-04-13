@@ -12,7 +12,7 @@
         {% csrf_token %}
         
         <div class="review-form-step">
-            <div class="review-form-step-label" data-step="1">What are you reviewing?</div>
+            <div class="review-form-step-label">What are you reviewing?</div>
             <select name="review_type" id="review_type" class="review-select main-select" required>
                 <option value="">Choose one...</option>
                 <option value="travel_package">Travel Package</option>
@@ -22,7 +22,7 @@
         </div>
 
         <div id="item_selection" class="review-form-step" style="display: none;">
-            <div class="review-form-step-label" data-step="2">
+            <div class="review-form-step-label">
                 <span id="selection-label">Select an item</span>
             </div>
             <select name="travel_package" id="id_travel_package" class="review-select item-select" style="display: none;">
@@ -48,7 +48,7 @@
         </div>
 
         <div class="review-form-step">
-            <div class="review-form-step-label" data-step="3">Rate your overall experience</div>
+            <div class="review-form-step-label">Rate your overall experience</div>
             <div class="star-rating-container">
                 <div class="star-rating-display">
                     <span class="star" data-rating="1">★</span>
@@ -62,12 +62,12 @@
         </div>
 
         <div class="review-form-step">
-            <div class="review-form-step-label" data-step="4">Tell us about your experience</div>
+            <div class="review-form-step-label">Tell us about your experience</div>
             <textarea name="comment" id="id_comment" class="review-comment" rows="6" placeholder="Share your experience! What did you like? What could have been better? Your review will help other travelers make better decisions." required></textarea>
         </div>
 
         <div class="review-form-step">
-            <div class="review-form-step-label" data-step="5">Add photos to your review</div>
+            <div class="review-form-step-label">Add photos to your review</div>
             <label class="file-upload-label">
                 <span>Click to upload photos (Optional)</span>
                 <input type="file" name="images" id="id_images" multiple accept="image/*">
