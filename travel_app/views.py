@@ -70,6 +70,8 @@ def logout():
 @login_required
 def profile(request):
     customer, created = Customer.objects.get_or_create(user=request.user)
+    # Get all bookings for the customer, ordered by booking date (newest first)
+    bookings = Booking.objects.filter(customer=customer).order_by('-booking_date')
 
     if request.method == 'POST':
         form = CustomerForm(request.POST, request.FILES, instance=customer)
@@ -82,7 +84,11 @@ def profile(request):
     else:
         form = CustomerForm(instance=customer)
 
-    return render(request, 'profile.html', {'form': form})
+    return render(request, 'profile.html', {
+        'form': form,
+        'bookings': bookings,
+        'customer': customer
+    })
 
 
 
